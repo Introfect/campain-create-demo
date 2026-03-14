@@ -14,6 +14,7 @@ interface GamificationState {
     postTimes: string
     postPeriod: PeriodType
     isOpen: boolean
+    isInputExpanded: boolean
     periodDropdownOpen: boolean
     focusedPeriodIndex: number
     focusedOptionIndex: number
@@ -25,6 +26,7 @@ interface GamificationState {
     type: RewardType
     amount: string
     isOpen: boolean
+    isInputExpanded: boolean
     focusedOptionIndex: number
     savedReward: SavedReward | null
   }
@@ -53,6 +55,7 @@ const initialState: GamificationState = {
     postTimes: '',
     postPeriod: null,
     isOpen: false,
+    isInputExpanded: false,
     periodDropdownOpen: false,
     focusedPeriodIndex: 0,
     focusedOptionIndex: 0,
@@ -63,6 +66,7 @@ const initialState: GamificationState = {
     type: null,
     amount: '',
     isOpen: false,
+    isInputExpanded: false,
     focusedOptionIndex: 0,
     savedReward: null,
   },
@@ -102,6 +106,7 @@ export const gamificationSlice = createSlice({
     // Reward Event actions
     setRewardEventType: (state: GamificationState, action: PayloadAction<RewardEventType>) => {
       state.rewardEvent.type = action.payload
+      state.rewardEvent.isInputExpanded = true // Expand input fields when option is clicked
       
       // If "Is Onboarded" is selected, save immediately and close
       if (action.payload === 'is_onboarded') {
@@ -112,6 +117,7 @@ export const gamificationSlice = createSlice({
           postPeriod: null,
         }
         state.rewardEvent.isOpen = false
+        state.rewardEvent.isInputExpanded = false
         
         // Clear reward if incompatible
         if (state.rewardType.savedReward?.type === 'upgrade_tier') {
@@ -154,6 +160,10 @@ export const gamificationSlice = createSlice({
     
     setRewardEventOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
       state.rewardEvent.isOpen = action.payload
+      // Collapse input fields when dropdown is opened
+      if (action.payload) {
+        state.rewardEvent.isInputExpanded = false
+      }
     },
     
     setPeriodDropdownOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
@@ -176,6 +186,7 @@ export const gamificationSlice = createSlice({
         postPeriod: state.rewardEvent.postPeriod,
       }
       state.rewardEvent.isOpen = false
+      state.rewardEvent.isInputExpanded = false
     },
     
     cancelRewardEvent: (state: GamificationState) => {
@@ -185,17 +196,20 @@ export const gamificationSlice = createSlice({
       state.rewardEvent.postTimes = saved?.postTimes || ''
       state.rewardEvent.postPeriod = saved?.postPeriod || null
       state.rewardEvent.isOpen = false
+      state.rewardEvent.isInputExpanded = false
     },
     
     // Reward Type actions
     setRewardTypeType: (state: GamificationState, action: PayloadAction<RewardType>) => {
       state.rewardType.type = action.payload
+      state.rewardType.isInputExpanded = true // Expand input fields when option is clicked
       
       if (action.payload === 'flat_bonus') {
         // Keep dropdown open so the amount input field is visible and focused
         state.rewardType.savedReward = { type: action.payload, amount: state.rewardType.amount }
       } else if (action.payload === 'upgrade_tier') {
         state.rewardType.isOpen = false
+        state.rewardType.isInputExpanded = false
         state.rewardType.savedReward = { type: action.payload }
         state.modalView = 'tier_selection'
         state.tierSelection.isOpen = true
@@ -214,6 +228,10 @@ export const gamificationSlice = createSlice({
     
     setRewardTypeOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
       state.rewardType.isOpen = action.payload
+      // Collapse input fields when dropdown is opened
+      if (action.payload) {
+        state.rewardType.isInputExpanded = false
+      }
     },
     
     setFocusedRewardOptionIndex: (state: GamificationState, action: PayloadAction<number>) => {

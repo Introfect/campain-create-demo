@@ -22,6 +22,7 @@
     --accent-foreground: #FBCFFB;
     --destructive: oklch(0.577 0.245 27.325);
     --border: #FEE7FE;
+    --border-input: #E0E0E0;
     --input: oklch(0.922 0 0);
     --ring: oklch(0.708 0 0);
     --chart-1: oklch(0.809 0.105 251.813);
@@ -39,6 +40,9 @@
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
     --color-text: #303030;
+    --text: #303030;
+    --text-muted: #B5B5B5;
+    --border-secondary: #E3E3E3;
 }
 
 .dark {
@@ -116,6 +120,9 @@
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
     --font-plus-jakarta-sans: "Plus Jakarta Sans", sans-serif;
+    --color-text-muted: var(--text-muted);
+    --color-border-secondary: var(--border-secondary);
+    --color-text: var(--text);
 }
 
 @layer base {

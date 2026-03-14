@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface CustomDropdownProps {
   isOpen: boolean
@@ -36,26 +37,23 @@ export const CustomDropdown = ({
     }
   }, [isOpen, onToggle])
 
-  // Escape key to close dropdown
   useHotkeys("escape", () => {
     if (isOpen) onToggle()
   }, { enabled: isOpen, preventDefault: true }, [isOpen, onToggle])
 
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
+    <div className={cn("relative", className)} ref={dropdownRef}>
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full h-10 px-3 py-2 text-left bg-white border rounded-lg flex items-center justify-between transition-colors ${
-          isOpen ? "border-primary ring-2 ring-primary/20" : "border-input"
-        } ${triggerClassName}`}
+        className={cn("w-full text-base leading-[140%] h-10 px-3 py-2 text-left bg-white border border-secondary rounded-lg flex items-center justify-between transition-colors", isOpen ? "border-primary border-2" : "border-border-secondary", triggerClassName)}
       >
         {trigger}
-        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-input rounded-lg shadow-lg z-50 py-2">
+        <div className={cn("absolute top-full left-0 right-0 mt-1 bg-white border border-input rounded-lg shadow-lg z-50 py-2", className)}>
           {children}
         </div>
       )}

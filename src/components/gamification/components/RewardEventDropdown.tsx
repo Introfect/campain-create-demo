@@ -22,6 +22,7 @@ import {
   saveRewardEvent,
   cancelRewardEvent,
 } from "@/store/slices/gamificationSlice"
+import { cn } from "@/lib/utils"
 
 export const RewardEventDropdown = () => {
   const dispatch = useAppDispatch()
@@ -30,27 +31,24 @@ export const RewardEventDropdown = () => {
   const amountInputRef = useRef<HTMLInputElement>(null)
   const postTimesInputRef = useRef<HTMLInputElement>(null)
 
-  // Auto-focus amount input when cross_sales is selected
   useEffect(() => {
     if (rewardEvent.type === "cross_sales" && rewardEvent.isOpen) {
       setTimeout(() => amountInputRef.current?.focus(), 50)
     }
   }, [rewardEvent.type, rewardEvent.isOpen])
 
-  // Auto-focus postTimes input when post_times is selected
   useEffect(() => {
     if (rewardEvent.type === "post_times" && rewardEvent.isOpen) {
       setTimeout(() => postTimesInputRef.current?.focus(), 50)
     }
   }, [rewardEvent.type, rewardEvent.isOpen])
 
-  // Keyboard navigation for period dropdown
   useHotkeys("down", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex + 1) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
   useHotkeys("up", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex - 1 + PERIOD_OPTIONS.length) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
   useHotkeys("enter", () => { dispatch(setRewardEventPostPeriod(PERIOD_OPTIONS[rewardEvent.focusedPeriodIndex].value)); dispatch(setPeriodDropdownOpen(false)) }, { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
   useHotkeys("escape", () => dispatch(setPeriodDropdownOpen(false)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [dispatch])
 
-  // Keyboard navigation for main dropdown options (3 options: cross_sales, post_times, is_onboarded)
+
   const EVENT_OPTIONS_COUNT = 3
   useHotkeys("down", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex + 1) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
   useHotkeys("up", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex - 1 + EVENT_OPTIONS_COUNT) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
@@ -66,8 +64,6 @@ export const RewardEventDropdown = () => {
       dispatch(saveRewardEvent())
     }
   }
-
-  // Handler for Tab on postTimes input
   const handlePostTimesKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Tab" && !e.shiftKey) {
       e.preventDefault()
@@ -86,13 +82,13 @@ export const RewardEventDropdown = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-secondary">Reward event *</label>
+      <label className="text-sm text-secondary-foreground">Reward event *</label>
 
       <CustomDropdown
         isOpen={rewardEvent.isOpen}
         onToggle={() => dispatch(setRewardEventOpen(!rewardEvent.isOpen))}
         trigger={
-          <span className={rewardEvent.savedEvent ? "text-secondary" : "text-muted-foreground"}>
+          <span className={cn("", rewardEvent.savedEvent ? "text-text" : "text-text-muted")}>
             {triggerLabel}
           </span>
         }
@@ -105,7 +101,7 @@ export const RewardEventDropdown = () => {
             onClick={() => dispatch(setRewardEventType("cross_sales"))}
           />
 
-          {rewardEvent.type === "cross_sales" && (
+          {rewardEvent.type === "cross_sales" && rewardEvent.isInputExpanded && (
             <AmountInput
               ref={amountInputRef}
               value={rewardEvent.amount}
@@ -121,7 +117,7 @@ export const RewardEventDropdown = () => {
             onClick={() => dispatch(setRewardEventType("post_times"))}
           />
 
-          {rewardEvent.type === "post_times" && (
+          {rewardEvent.type === "post_times" && rewardEvent.isInputExpanded && (
             <div className="px-3 py-2 flex items-center gap-2">
               <Input
                 ref={postTimesInputRef}
@@ -151,8 +147,8 @@ export const RewardEventDropdown = () => {
             onClick={() => dispatch(setRewardEventType("is_onboarded"))}
           />
 
-          {/* Only show Save/Cancel buttons when an option with input fields is selected */}
-          {(rewardEvent.type === "cross_sales" || rewardEvent.type === "post_times") && (
+          {/* Only show Save/Cancel buttons when an option with input fields is selected and expanded */}
+          {(rewardEvent.type === "cross_sales" || rewardEvent.type === "post_times") && rewardEvent.isInputExpanded && (
             <div className="flex items-center justify-end gap-2 px-3 pt-2 mt-2 border-t border-input">
               <Button type="button" variant="ghost" size="sm" onClick={() => dispatch(cancelRewardEvent())}>
                 Cancel

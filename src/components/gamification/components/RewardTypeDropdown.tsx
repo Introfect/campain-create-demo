@@ -61,13 +61,13 @@ export const RewardTypeDropdown = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium text-secondary">Reward with *</label>
+      <label className="text-sm text-secondary-foreground">Reward with *</label>
 
       <CustomDropdown
         isOpen={rewardType.isOpen}
         onToggle={() => dispatch(setRewardTypeOpen(!rewardType.isOpen))}
         trigger={
-          <span className={rewardType.savedReward ? "text-secondary" : "text-muted-foreground"}>
+          <span className={rewardType.savedReward ? "text-secondary" : "text-text-muted"}>
             {triggerLabel}
           </span>
         }
@@ -80,7 +80,7 @@ export const RewardTypeDropdown = () => {
             onClick={() => dispatch(setRewardTypeType("flat_bonus"))}
           />
 
-          {rewardType.type === "flat_bonus" && (
+          {rewardType.type === "flat_bonus" && rewardType.isInputExpanded && (
             <AmountInput
               ref={rewardAmountInputRef}
               value={rewardType.amount}
@@ -93,9 +93,8 @@ export const RewardTypeDropdown = () => {
             type="button"
             onClick={() => !isUpgradeTierDisabled && dispatch(setRewardTypeType("upgrade_tier"))}
             disabled={isUpgradeTierDisabled}
-            className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${
-              rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
-            } ${rewardType.type === "upgrade_tier" ? "text-primary" : "text-secondary"
+            className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
+              } ${rewardType.type === "upgrade_tier" ? "text-primary" : "text-secondary"
               } ${isUpgradeTierDisabled ? "opacity-50 cursor-not-allowed hover:bg-transparent" : ""}`}
           >
             {rewardType.type === "upgrade_tier" ? (
