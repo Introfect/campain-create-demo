@@ -1,4 +1,4 @@
-const About = () => {
+const Applications = () => {
   return (
     <div className="p-8">
       <header className="mb-8">
@@ -13,4 +13,4 @@ const About = () => {
   )
 }
 
-export default About
+export default Applications
