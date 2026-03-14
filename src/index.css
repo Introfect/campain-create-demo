@@ -14,7 +14,7 @@
     --popover-foreground: oklch(0.145 0 0);
     --primary: #C530C5;
     --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
+    --secondary: #303030;
     --secondary-foreground: #616161;
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
@@ -127,4 +127,8 @@
   html {
     @apply font-sans;
     }
+}
+
+body{
+  font-family: var(--font-plus-jakarta-sans);
 }
