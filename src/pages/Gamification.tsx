@@ -1,4 +1,4 @@
-import { RewardSystemDialog } from "@/features/gamification/components/RewardSystemDialog"
+import { RewardSystemDialog } from "@/components/gamification/components/RewardSystemDialog"
 
 const Gamification = () => {
   return (
