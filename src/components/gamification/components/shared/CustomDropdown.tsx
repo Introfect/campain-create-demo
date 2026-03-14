@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react"
+import { useHotkeys } from "react-hotkeys-hook"
 import { ChevronDown } from "lucide-react"
 
 interface CustomDropdownProps {
@@ -34,6 +35,11 @@ export const CustomDropdown = ({
       return () => document.removeEventListener("mousedown", handleClickOutside)
     }
   }, [isOpen, onToggle])
+
+  // Escape key to close dropdown
+  useHotkeys("escape", () => {
+    if (isOpen) onToggle()
+  }, { enabled: isOpen, preventDefault: true }, [isOpen, onToggle])
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>

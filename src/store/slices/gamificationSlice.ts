@@ -16,6 +16,7 @@ interface GamificationState {
     isOpen: boolean
     periodDropdownOpen: boolean
     focusedPeriodIndex: number
+    focusedOptionIndex: number
     savedEvent: SavedEvent | null
   }
   
@@ -24,6 +25,7 @@ interface GamificationState {
     type: RewardType
     amount: string
     isOpen: boolean
+    focusedOptionIndex: number
     savedReward: SavedReward | null
   }
   
@@ -53,6 +55,7 @@ const initialState: GamificationState = {
     isOpen: false,
     periodDropdownOpen: false,
     focusedPeriodIndex: 0,
+    focusedOptionIndex: 0,
     savedEvent: null,
   },
   
@@ -60,6 +63,7 @@ const initialState: GamificationState = {
     type: null,
     amount: '',
     isOpen: false,
+    focusedOptionIndex: 0,
     savedReward: null,
   },
   
@@ -160,6 +164,10 @@ export const gamificationSlice = createSlice({
       state.rewardEvent.focusedPeriodIndex = action.payload
     },
     
+    setFocusedEventOptionIndex: (state: GamificationState, action: PayloadAction<number>) => {
+      state.rewardEvent.focusedOptionIndex = action.payload
+    },
+    
     saveRewardEvent: (state: GamificationState) => {
       state.rewardEvent.savedEvent = {
         type: state.rewardEvent.type,
@@ -206,6 +214,10 @@ export const gamificationSlice = createSlice({
     
     setRewardTypeOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
       state.rewardType.isOpen = action.payload
+    },
+    
+    setFocusedRewardOptionIndex: (state: GamificationState, action: PayloadAction<number>) => {
+      state.rewardType.focusedOptionIndex = action.payload
     },
     
     // Tier Selection actions
@@ -262,11 +274,13 @@ export const {
   setRewardEventOpen,
   setPeriodDropdownOpen,
   setFocusedPeriodIndex,
+  setFocusedEventOptionIndex,
   saveRewardEvent,
   cancelRewardEvent,
   setRewardTypeType,
   setRewardTypeAmount,
   setRewardTypeOpen,
+  setFocusedRewardOptionIndex,
   setSelectedTierName,
   setTierDropdownOpen,
   setFocusedTierIndex,

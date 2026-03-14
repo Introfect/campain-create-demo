@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react"
+import type React from "react"
+import { useHotkeys } from "react-hotkeys-hook"
 import { Check } from "lucide-react"
 import { CustomDropdown } from "./shared/CustomDropdown"
 import { AmountInput } from "./shared/AmountInput"
@@ -9,6 +11,7 @@ import {
   setRewardTypeType,
   setRewardTypeAmount,
   setRewardTypeOpen,
+  setFocusedRewardOptionIndex,
 } from "@/store/slices/gamificationSlice"
 
 export const RewardTypeDropdown = () => {
@@ -26,6 +29,28 @@ export const RewardTypeDropdown = () => {
   }, [rewardType.type, rewardType.isOpen])
 
   const isUpgradeTierDisabled = savedEventType === "post_times" || savedEventType === "is_onboarded"
+
+  // Keyboard navigation for main dropdown options (2 options: flat_bonus, upgrade_tier)
+  const REWARD_OPTIONS_COUNT = 2
+  useHotkeys("down", () => dispatch(setFocusedRewardOptionIndex((rewardType.focusedOptionIndex + 1) % REWARD_OPTIONS_COUNT)), { enabled: rewardType.isOpen, preventDefault: true }, [rewardType.focusedOptionIndex, dispatch])
+  useHotkeys("up", () => dispatch(setFocusedRewardOptionIndex((rewardType.focusedOptionIndex - 1 + REWARD_OPTIONS_COUNT) % REWARD_OPTIONS_COUNT)), { enabled: rewardType.isOpen, preventDefault: true }, [rewardType.focusedOptionIndex, dispatch])
+  useHotkeys("enter", () => {
+    const rewardTypes = ["flat_bonus", "upgrade_tier"] as const
+    const selectedType = rewardTypes[rewardType.focusedOptionIndex]
+    if (selectedType === "upgrade_tier" && !isUpgradeTierDisabled) {
+      dispatch(setRewardTypeType(selectedType))
+    } else if (selectedType === "flat_bonus") {
+      dispatch(setRewardTypeType(selectedType))
+    }
+  }, { enabled: rewardType.isOpen && !rewardType.type, preventDefault: true }, [rewardType.focusedOptionIndex, rewardType.type, isUpgradeTierDisabled, dispatch])
+
+  // Handler for Enter on flat_bonus amount input
+  const handleRewardAmountKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      dispatch(setRewardTypeOpen(false))
+    }
+  }
 
   const triggerLabel = getCurrentRewardLabel(
     rewardType.type,
@@ -51,6 +76,7 @@ export const RewardTypeDropdown = () => {
           <DropdownOption
             label="Flat $X bonus"
             isSelected={rewardType.type === "flat_bonus"}
+            isFocused={rewardType.focusedOptionIndex === 0}
             onClick={() => dispatch(setRewardTypeType("flat_bonus"))}
           />
 
@@ -59,6 +85,7 @@ export const RewardTypeDropdown = () => {
               ref={rewardAmountInputRef}
               value={rewardType.amount}
               onChange={(value) => dispatch(setRewardTypeAmount(value))}
+              onKeyDown={handleRewardAmountKeyDown}
             />
           )}
 
@@ -66,7 +93,9 @@ export const RewardTypeDropdown = () => {
             type="button"
             onClick={() => !isUpgradeTierDisabled && dispatch(setRewardTypeType("upgrade_tier"))}
             disabled={isUpgradeTierDisabled}
-            className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${rewardType.type === "upgrade_tier" ? "text-primary" : "text-secondary"
+            className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${
+              rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
+            } ${rewardType.type === "upgrade_tier" ? "text-primary" : "text-secondary"
               } ${isUpgradeTierDisabled ? "opacity-50 cursor-not-allowed hover:bg-transparent" : ""}`}
           >
             {rewardType.type === "upgrade_tier" ? (

@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react"
+import type React from "react"
+import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CustomDropdown } from "./shared/CustomDropdown"
@@ -16,6 +18,7 @@ import {
   setRewardEventOpen,
   setPeriodDropdownOpen,
   setFocusedPeriodIndex,
+  setFocusedEventOptionIndex,
   saveRewardEvent,
   cancelRewardEvent,
 } from "@/store/slices/gamificationSlice"
@@ -23,7 +26,7 @@ import {
 export const RewardEventDropdown = () => {
   const dispatch = useAppDispatch()
   const rewardEvent = useAppSelector((state: RootState) => state.gamification.rewardEvent)
-  
+
   const amountInputRef = useRef<HTMLInputElement>(null)
   const postTimesInputRef = useRef<HTMLInputElement>(null)
 
@@ -42,34 +45,36 @@ export const RewardEventDropdown = () => {
   }, [rewardEvent.type, rewardEvent.isOpen])
 
   // Keyboard navigation for period dropdown
-  useEffect(() => {
-    if (!rewardEvent.periodDropdownOpen) return
+  useHotkeys("down", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex + 1) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
+  useHotkeys("up", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex - 1 + PERIOD_OPTIONS.length) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
+  useHotkeys("enter", () => { dispatch(setRewardEventPostPeriod(PERIOD_OPTIONS[rewardEvent.focusedPeriodIndex].value)); dispatch(setPeriodDropdownOpen(false)) }, { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
+  useHotkeys("escape", () => dispatch(setPeriodDropdownOpen(false)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [dispatch])
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowDown":
-          e.preventDefault()
-          dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex + 1) % PERIOD_OPTIONS.length))
-          break
-        case "ArrowUp":
-          e.preventDefault()
-          dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex - 1 + PERIOD_OPTIONS.length) % PERIOD_OPTIONS.length))
-          break
-        case "Enter":
-          e.preventDefault()
-          dispatch(setRewardEventPostPeriod(PERIOD_OPTIONS[rewardEvent.focusedPeriodIndex].value))
-          dispatch(setPeriodDropdownOpen(false))
-          break
-        case "Escape":
-          e.preventDefault()
-          dispatch(setPeriodDropdownOpen(false))
-          break
-      }
+  // Keyboard navigation for main dropdown options (3 options: cross_sales, post_times, is_onboarded)
+  const EVENT_OPTIONS_COUNT = 3
+  useHotkeys("down", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex + 1) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
+  useHotkeys("up", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex - 1 + EVENT_OPTIONS_COUNT) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
+  useHotkeys("enter", () => {
+    const eventTypes = ["cross_sales", "post_times", "is_onboarded"] as const
+    dispatch(setRewardEventType(eventTypes[rewardEvent.focusedOptionIndex]))
+  }, { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen && !rewardEvent.type, preventDefault: true }, [rewardEvent.focusedOptionIndex, rewardEvent.type, dispatch])
+
+  // Handler for Enter on cross_sales amount input
+  const handleAmountKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+      dispatch(saveRewardEvent())
     }
+  }
 
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [rewardEvent.periodDropdownOpen, rewardEvent.focusedPeriodIndex, dispatch])
+  // Handler for Tab on postTimes input
+  const handlePostTimesKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" && !e.shiftKey) {
+      e.preventDefault()
+      postTimesInputRef.current?.blur()
+      dispatch(setPeriodDropdownOpen(true))
+    }
+  }
 
   const triggerLabel = getCurrentEventLabel(
     rewardEvent.type,
@@ -96,6 +101,7 @@ export const RewardEventDropdown = () => {
           <DropdownOption
             label="Cross $X in sales"
             isSelected={rewardEvent.type === "cross_sales"}
+            isFocused={rewardEvent.focusedOptionIndex === 0}
             onClick={() => dispatch(setRewardEventType("cross_sales"))}
           />
 
@@ -104,12 +110,14 @@ export const RewardEventDropdown = () => {
               ref={amountInputRef}
               value={rewardEvent.amount}
               onChange={(value) => dispatch(setRewardEventAmount(value))}
+              onKeyDown={handleAmountKeyDown}
             />
           )}
 
           <DropdownOption
             label="Posts X times every Y period"
             isSelected={rewardEvent.type === "post_times"}
+            isFocused={rewardEvent.focusedOptionIndex === 1}
             onClick={() => dispatch(setRewardEventType("post_times"))}
           />
 
@@ -120,6 +128,7 @@ export const RewardEventDropdown = () => {
                 type="number"
                 value={rewardEvent.postTimes}
                 onChange={(e) => dispatch(setRewardEventPostTimes(e.target.value))}
+                onKeyDown={handlePostTimesKeyDown}
                 placeholder="e.g. 4"
                 className="flex-1"
                 min="1"
@@ -138,6 +147,7 @@ export const RewardEventDropdown = () => {
           <DropdownOption
             label="Is Onboarded"
             isSelected={rewardEvent.type === "is_onboarded"}
+            isFocused={rewardEvent.focusedOptionIndex === 2}
             onClick={() => dispatch(setRewardEventType("is_onboarded"))}
           />
 

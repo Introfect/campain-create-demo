@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { CustomDropdown } from "./shared/CustomDropdown"
 import { TIER_OPTIONS } from "../types"
@@ -16,34 +16,13 @@ export const TierSelectionView = () => {
   const tierSelection = useAppSelector((state: RootState) => state.gamification.tierSelection)
 
   // Keyboard navigation for tier dropdown
-  useEffect(() => {
-    if (!tierSelection.isOpen) return
+  useHotkeys("down", () => dispatch(setFocusedTierIndex((tierSelection.focusedIndex + 1) % TIER_OPTIONS.length)), { enabled: tierSelection.isOpen, preventDefault: true }, [tierSelection.focusedIndex, dispatch])
+  useHotkeys("up", () => dispatch(setFocusedTierIndex((tierSelection.focusedIndex - 1 + TIER_OPTIONS.length) % TIER_OPTIONS.length)), { enabled: tierSelection.isOpen, preventDefault: true }, [tierSelection.focusedIndex, dispatch])
+  useHotkeys("enter", () => { const selectedTier = TIER_OPTIONS[tierSelection.focusedIndex]; dispatch(setSelectedTierName(selectedTier.label)) }, { enabled: tierSelection.isOpen, preventDefault: true }, [tierSelection.focusedIndex, dispatch])
+  useHotkeys("escape", () => dispatch(setTierDropdownOpen(false)), { enabled: tierSelection.isOpen, preventDefault: true }, [dispatch])
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "ArrowDown":
-          e.preventDefault()
-          dispatch(setFocusedTierIndex((tierSelection.focusedIndex + 1) % TIER_OPTIONS.length))
-          break
-        case "ArrowUp":
-          e.preventDefault()
-          dispatch(setFocusedTierIndex((tierSelection.focusedIndex - 1 + TIER_OPTIONS.length) % TIER_OPTIONS.length))
-          break
-        case "Enter":
-          e.preventDefault()
-          const selectedTier = TIER_OPTIONS[tierSelection.focusedIndex]
-          dispatch(setSelectedTierName(selectedTier.label))
-          break
-        case "Escape":
-          e.preventDefault()
-          dispatch(setTierDropdownOpen(false))
-          break
-      }
-    }
-
-    document.addEventListener("keydown", handleKeyDown)
-    return () => document.removeEventListener("keydown", handleKeyDown)
-  }, [tierSelection.isOpen, tierSelection.focusedIndex, dispatch])
+  // Enter to save when tier is selected and dropdown is closed
+  useHotkeys("enter", () => dispatch(saveTierSelection()), { enabled: !tierSelection.isOpen && !!tierSelection.selectedTierName, preventDefault: true }, [tierSelection.selectedTierName, dispatch])
 
   return (
     <div className="flex flex-col gap-4">
