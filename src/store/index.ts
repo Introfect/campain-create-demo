@@ -1,0 +1,16 @@
+import { configureStore } from '@reduxjs/toolkit'
+import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
+import gamificationReducer from './slices/gamificationSlice'
+
+export const store = configureStore({
+  reducer: {
+    gamification: gamificationReducer,
+  },
+})
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+// Typed hooks for use throughout the app
+export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
