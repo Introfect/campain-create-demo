@@ -5,7 +5,7 @@ import { navItems } from "@/constants/navLinks"
 export function AppSidebar() {
 
     return (
-        <div className="h-screen font-plus-jakarta-sans bg-sidebar p-4">
+        <div className="h-screen w-47 font-plus-jakarta-sans bg-sidebar p-4">
             <img src={logoUrl} alt="logo" className="w-full" />
             <div className="flex mt-6 flex-col gap-1">
                 {navItems.map((item) => {

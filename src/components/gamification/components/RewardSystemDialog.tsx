@@ -31,7 +31,9 @@ export const RewardSystemDialog = () => {
     return (
         <Dialog open={dialogOpen} onOpenChange={handleDialogOpenChange}>
             <DialogTrigger asChild>
-                <Button variant="default">Enable Gamification</Button>
+                <div className="w-full px-5.5">
+                    <Button variant="default" className="w-full mx-auto">Enable Gamification</Button>
+                </div>
             </DialogTrigger>
             <DialogContent className="p-6 gap-4">
                 <DialogHeader>
