@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import Home from './pages/Home'
 import Gamification from './pages/Gamification'
@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<MainLayout />}>
+        <Route element={<MainLayout><Outlet /></MainLayout>}>
           <Route index element={<Navigate to="/gamification" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/gamification" element={<Gamification />} />
