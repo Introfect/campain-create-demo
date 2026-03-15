@@ -1,7 +1,6 @@
-import HeroCards from "@/components/gamification/HeroCards"
-import { RewardSystemDialog } from "@/components/gamification/RewardSystemDialog"
-import { gamificationCards } from "@/constants/common"
-
+import HeroCards from "@/components/gamification/HeroCards";
+import { RewardSystemDialog } from "@/components/gamification/RewardSystemDialog";
+import { gamificationCards } from "@/constants/common";
 
 const Gamification = () => {
   return (
@@ -10,9 +9,12 @@ const Gamification = () => {
         <img src="/hero.svg" alt="gamification background" className="w-full" />
 
         <div className="max-w-[354px] absolute inset-x-0 top-15 text-center  mx-auto w-full">
-          <h2 className="text-accent text-balance font-semibold text-[28px] leading-[140%] ">Gamify your Campaign</h2>
-          <p className="text-secondary-foreground text-base mt-2 mb-6 leading-[140%]">Enable gamification to start crafting
-            your custom reward system.</p>
+          <h2 className="text-accent text-balance font-semibold text-[28px] leading-[140%] ">
+            Gamify your Campaign
+          </h2>
+          <p className="text-secondary-foreground text-base mt-2 mb-6 leading-[140%]">
+            Enable gamification to start crafting your custom reward system.
+          </p>
 
           <RewardSystemDialog />
         </div>
@@ -20,13 +22,10 @@ const Gamification = () => {
           {gamificationCards.map((card) => (
             <HeroCards key={card.title} {...card} />
           ))}
-
-
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Gamification
+export default Gamification;

@@ -10,7 +10,7 @@ const Applications = () => {
         About content goes here
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Applications
+export default Applications;

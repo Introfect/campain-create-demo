@@ -1,17 +1,29 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import Home from './pages/Home'
-import Gamification from './pages/Gamification'
-import './App.css'
-import Payments from './pages/Payments'
-import Insights from './pages/Insights'
-import Applications from './pages/Applications'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  Outlet,
+} from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import Home from "./pages/Home";
+import Gamification from "./pages/Gamification";
+import "./App.css";
+import Payments from "./pages/Payments";
+import Insights from "./pages/Insights";
+import Applications from "./pages/Applications";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<MainLayout><Outlet /></MainLayout>}>
+        <Route
+          element={
+            <MainLayout>
+              <Outlet />
+            </MainLayout>
+          }
+        >
           <Route index element={<Navigate to="/gamification" replace />} />
           <Route path="/home" element={<Home />} />
           <Route path="/insights" element={<Insights />} />
@@ -21,7 +33,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

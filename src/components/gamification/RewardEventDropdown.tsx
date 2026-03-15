@@ -1,15 +1,15 @@
-import { useEffect, useRef } from "react"
-import type React from "react"
-import { useHotkeys } from "react-hotkeys-hook"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { CustomDropdown } from "./shared/CustomDropdown"
-import { AmountInput } from "./shared/AmountInput"
-import { DropdownOption } from "./shared/DropdownOption"
-import { PeriodDropdown } from "./shared/PeriodDropdown"
-import { getCurrentEventLabel } from "./utils/formatters"
-import { PERIOD_OPTIONS } from "../../lib/types"
-import { useAppDispatch, useAppSelector, type RootState } from "@/store"
+import { useEffect, useRef } from "react";
+import type React from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CustomDropdown } from "./shared/CustomDropdown";
+import { AmountInput } from "./shared/AmountInput";
+import { DropdownOption } from "./shared/DropdownOption";
+import { PeriodDropdown } from "./shared/PeriodDropdown";
+import { getCurrentEventLabel } from "./utils/formatters";
+import { PERIOD_OPTIONS } from "../../lib/types";
+import { useAppDispatch, useAppSelector, type RootState } from "@/store";
 import {
   setRewardEventType,
   setRewardEventAmount,
@@ -21,74 +21,158 @@ import {
   setFocusedEventOptionIndex,
   saveRewardEvent,
   cancelRewardEvent,
-} from "@/store/slices/gamificationSlice"
-import { cn } from "@/lib/utils"
+} from "@/store/slices/gamificationSlice";
+import { cn } from "@/lib/utils";
 
 export const RewardEventDropdown = () => {
-  const dispatch = useAppDispatch()
-  const rewardEvent = useAppSelector((state: RootState) => state.gamification.rewardEvent)
+  const dispatch = useAppDispatch();
+  const rewardEvent = useAppSelector(
+    (state: RootState) => state.gamification.rewardEvent,
+  );
 
-  const amountInputRef = useRef<HTMLInputElement>(null)
-  const postTimesInputRef = useRef<HTMLInputElement>(null)
+  const amountInputRef = useRef<HTMLInputElement>(null);
+  const postTimesInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (rewardEvent.type === "cross_sales" && rewardEvent.isOpen) {
-      setTimeout(() => amountInputRef.current?.focus(), 50)
+      setTimeout(() => amountInputRef.current?.focus(), 50);
     }
-  }, [rewardEvent.type, rewardEvent.isOpen])
+  }, [rewardEvent.type, rewardEvent.isOpen]);
 
   useEffect(() => {
     if (rewardEvent.type === "post_times" && rewardEvent.isOpen) {
-      setTimeout(() => postTimesInputRef.current?.focus(), 50)
+      setTimeout(() => postTimesInputRef.current?.focus(), 50);
     }
-  }, [rewardEvent.type, rewardEvent.isOpen])
+  }, [rewardEvent.type, rewardEvent.isOpen]);
 
-  useHotkeys("down", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex + 1) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
-  useHotkeys("up", () => dispatch(setFocusedPeriodIndex((rewardEvent.focusedPeriodIndex - 1 + PERIOD_OPTIONS.length) % PERIOD_OPTIONS.length)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
-  useHotkeys("enter", () => { dispatch(setRewardEventPostPeriod(PERIOD_OPTIONS[rewardEvent.focusedPeriodIndex].value)); dispatch(setPeriodDropdownOpen(false)) }, { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedPeriodIndex, dispatch])
-  useHotkeys("escape", () => dispatch(setPeriodDropdownOpen(false)), { enabled: rewardEvent.periodDropdownOpen, preventDefault: true }, [dispatch])
+  useHotkeys(
+    "down",
+    () =>
+      dispatch(
+        setFocusedPeriodIndex(
+          (rewardEvent.focusedPeriodIndex + 1) % PERIOD_OPTIONS.length,
+        ),
+      ),
+    { enabled: rewardEvent.periodDropdownOpen, preventDefault: true },
+    [rewardEvent.focusedPeriodIndex, dispatch],
+  );
+  useHotkeys(
+    "up",
+    () =>
+      dispatch(
+        setFocusedPeriodIndex(
+          (rewardEvent.focusedPeriodIndex - 1 + PERIOD_OPTIONS.length) %
+            PERIOD_OPTIONS.length,
+        ),
+      ),
+    { enabled: rewardEvent.periodDropdownOpen, preventDefault: true },
+    [rewardEvent.focusedPeriodIndex, dispatch],
+  );
+  useHotkeys(
+    "enter",
+    () => {
+      dispatch(
+        setRewardEventPostPeriod(
+          PERIOD_OPTIONS[rewardEvent.focusedPeriodIndex].value,
+        ),
+      );
+      dispatch(setPeriodDropdownOpen(false));
+    },
+    { enabled: rewardEvent.periodDropdownOpen, preventDefault: true },
+    [rewardEvent.focusedPeriodIndex, dispatch],
+  );
+  useHotkeys(
+    "escape",
+    () => dispatch(setPeriodDropdownOpen(false)),
+    { enabled: rewardEvent.periodDropdownOpen, preventDefault: true },
+    [dispatch],
+  );
 
-
-  const EVENT_OPTIONS_COUNT = 3
-  useHotkeys("down", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex + 1) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
-  useHotkeys("up", () => dispatch(setFocusedEventOptionIndex((rewardEvent.focusedOptionIndex - 1 + EVENT_OPTIONS_COUNT) % EVENT_OPTIONS_COUNT)), { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen, preventDefault: true }, [rewardEvent.focusedOptionIndex, dispatch])
-  useHotkeys("enter", () => {
-    const eventTypes = ["cross_sales", "post_times", "is_onboarded"] as const
-    dispatch(setRewardEventType(eventTypes[rewardEvent.focusedOptionIndex]))
-  }, { enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen && !rewardEvent.type, preventDefault: true }, [rewardEvent.focusedOptionIndex, rewardEvent.type, dispatch])
+  const EVENT_OPTIONS_COUNT = 3;
+  useHotkeys(
+    "down",
+    () =>
+      dispatch(
+        setFocusedEventOptionIndex(
+          (rewardEvent.focusedOptionIndex + 1) % EVENT_OPTIONS_COUNT,
+        ),
+      ),
+    {
+      enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen,
+      preventDefault: true,
+    },
+    [rewardEvent.focusedOptionIndex, dispatch],
+  );
+  useHotkeys(
+    "up",
+    () =>
+      dispatch(
+        setFocusedEventOptionIndex(
+          (rewardEvent.focusedOptionIndex - 1 + EVENT_OPTIONS_COUNT) %
+            EVENT_OPTIONS_COUNT,
+        ),
+      ),
+    {
+      enabled: rewardEvent.isOpen && !rewardEvent.periodDropdownOpen,
+      preventDefault: true,
+    },
+    [rewardEvent.focusedOptionIndex, dispatch],
+  );
+  useHotkeys(
+    "enter",
+    () => {
+      const eventTypes = ["cross_sales", "post_times", "is_onboarded"] as const;
+      dispatch(setRewardEventType(eventTypes[rewardEvent.focusedOptionIndex]));
+    },
+    {
+      enabled:
+        rewardEvent.isOpen &&
+        !rewardEvent.periodDropdownOpen &&
+        !rewardEvent.type,
+      preventDefault: true,
+    },
+    [rewardEvent.focusedOptionIndex, rewardEvent.type, dispatch],
+  );
 
   // Handler for Enter on cross_sales amount input
   const handleAmountKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault()
-      dispatch(saveRewardEvent())
+      e.preventDefault();
+      dispatch(saveRewardEvent());
     }
-  }
+  };
   const handlePostTimesKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Tab" && !e.shiftKey) {
-      e.preventDefault()
-      postTimesInputRef.current?.blur()
-      dispatch(setPeriodDropdownOpen(true))
+      e.preventDefault();
+      postTimesInputRef.current?.blur();
+      dispatch(setPeriodDropdownOpen(true));
     }
-  }
+  };
 
   const triggerLabel = getCurrentEventLabel(
     rewardEvent.type,
     rewardEvent.amount,
     rewardEvent.postTimes,
     rewardEvent.postPeriod,
-    rewardEvent.savedEvent
-  )
+    rewardEvent.savedEvent,
+  );
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm text-secondary-foreground">Reward event *</label>
+      <label className="text-sm text-secondary-foreground">
+        Reward event *
+      </label>
 
       <CustomDropdown
         isOpen={rewardEvent.isOpen}
         onToggle={() => dispatch(setRewardEventOpen(!rewardEvent.isOpen))}
         trigger={
-          <span className={cn("", rewardEvent.savedEvent ? "text-text" : "text-text-muted")}>
+          <span
+            className={cn(
+              "",
+              rewardEvent.savedEvent ? "text-text" : "text-text-muted",
+            )}
+          >
             {triggerLabel}
           </span>
         }
@@ -101,14 +185,15 @@ export const RewardEventDropdown = () => {
             onClick={() => dispatch(setRewardEventType("cross_sales"))}
           />
 
-          {rewardEvent.type === "cross_sales" && rewardEvent.isInputExpanded && (
-            <AmountInput
-              ref={amountInputRef}
-              value={rewardEvent.amount}
-              onChange={(value) => dispatch(setRewardEventAmount(value))}
-              onKeyDown={handleAmountKeyDown}
-            />
-          )}
+          {rewardEvent.type === "cross_sales" &&
+            rewardEvent.isInputExpanded && (
+              <AmountInput
+                ref={amountInputRef}
+                value={rewardEvent.amount}
+                onChange={(value) => dispatch(setRewardEventAmount(value))}
+                onKeyDown={handleAmountKeyDown}
+              />
+            )}
 
           <DropdownOption
             label="Posts X times every Y period"
@@ -123,7 +208,9 @@ export const RewardEventDropdown = () => {
                 ref={postTimesInputRef}
                 type="number"
                 value={rewardEvent.postTimes}
-                onChange={(e) => dispatch(setRewardEventPostTimes(e.target.value))}
+                onChange={(e) =>
+                  dispatch(setRewardEventPostTimes(e.target.value))
+                }
                 onKeyDown={handlePostTimesKeyDown}
                 placeholder="e.g. 4"
                 className="flex-1"
@@ -132,7 +219,11 @@ export const RewardEventDropdown = () => {
 
               <PeriodDropdown
                 isOpen={rewardEvent.periodDropdownOpen}
-                onToggle={() => dispatch(setPeriodDropdownOpen(!rewardEvent.periodDropdownOpen))}
+                onToggle={() =>
+                  dispatch(
+                    setPeriodDropdownOpen(!rewardEvent.periodDropdownOpen),
+                  )
+                }
                 value={rewardEvent.postPeriod}
                 onChange={(value) => dispatch(setRewardEventPostPeriod(value))}
                 focusedIndex={rewardEvent.focusedPeriodIndex}
@@ -148,18 +239,30 @@ export const RewardEventDropdown = () => {
           />
 
           {/* Only show Save/Cancel buttons when an option with input fields is selected and expanded */}
-          {(rewardEvent.type === "cross_sales" || rewardEvent.type === "post_times") && rewardEvent.isInputExpanded && (
-            <div className="flex items-center justify-end gap-2 px-3 pt-2 mt-2 border-t border-input">
-              <Button type="button" variant="ghost" size="sm" onClick={() => dispatch(cancelRewardEvent())}>
-                Cancel
-              </Button>
-              <Button type="button" variant="default" size="sm" onClick={() => dispatch(saveRewardEvent())}>
-                Save
-              </Button>
-            </div>
-          )}
+          {(rewardEvent.type === "cross_sales" ||
+            rewardEvent.type === "post_times") &&
+            rewardEvent.isInputExpanded && (
+              <div className="flex items-center justify-end gap-2 px-3 pt-2 mt-2 border-t border-input">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => dispatch(cancelRewardEvent())}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  variant="default"
+                  size="sm"
+                  onClick={() => dispatch(saveRewardEvent())}
+                >
+                  Save
+                </Button>
+              </div>
+            )}
         </div>
       </CustomDropdown>
     </div>
-  )
-}
+  );
+};
