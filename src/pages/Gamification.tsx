@@ -8,7 +8,7 @@ const Gamification = () => {
       <div className="relative z-20">
         <img src="/hero.svg" alt="gamification background" className="w-full" />
 
-        <div className="max-w-[354px] absolute inset-x-0 top-15 text-center  mx-auto w-full">
+        <div className="max-w-[310px] absolute inset-x-0 top-15 text-center  mx-auto w-full">
           <h2 className="text-accent text-balance font-semibold text-[28px] leading-[140%] ">
             Gamify your Campaign
           </h2>

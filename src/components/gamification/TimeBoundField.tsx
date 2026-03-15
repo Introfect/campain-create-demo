@@ -66,7 +66,7 @@ export const TimeBoundField = () => {
               </span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
+          <PopoverContent className="w-auto bg-red-300 p-0" align="start">
             <Calendar
               mode="single"
               selected={endDate || undefined}

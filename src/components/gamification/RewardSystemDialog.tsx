@@ -19,7 +19,7 @@ export const RewardSystemDialog = () => {
       onOpenChange={(open) => dispatch(setDialogOpen(open))}
     >
       <DialogTrigger asChild>
-        <div className="w-full px-5.5">
+        <div className="w-full">
           <Button variant="default" className="w-full mx-auto">
             Enable Gamification
           </Button>
