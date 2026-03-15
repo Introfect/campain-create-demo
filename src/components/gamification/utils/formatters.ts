@@ -1,5 +1,5 @@
-import type { PeriodType, RewardEventType, SavedEvent, RewardType, SavedReward } from "../types"
-import { PERIOD_OPTIONS } from "../types"
+import type { PeriodType, RewardEventType, SavedEvent, RewardType, SavedReward } from "../../../lib/types"
+import { PERIOD_OPTIONS } from "../../../lib/types"
 
 export const formatPeriod = (period: PeriodType): string => {
   if (!period) return ""

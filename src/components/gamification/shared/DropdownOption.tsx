@@ -22,13 +22,12 @@ export const DropdownOption = ({
     <button
       type="button"
       onClick={onClick}
-      className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${
-        isFocused ? "bg-muted" : ""
-      } ${isSelected ? "text-primary" : "text-secondary"} ${className}`}
+      className={`px-3 py-2 text-left rounded-lg hover:bg-muted flex items-center justify-between gap-2 w-full transition-colors ${isFocused ? "bg-muted" : ""
+        } ${isSelected ? "text-primary bg-primary-light" : "text-secondary"} ${className}`}
     >
-      {isSelected ? <Check className="w-4 h-4" /> : <span className="w-4" />}
       {icon}
       <span>{label}</span>
+      {isSelected ? <Check className="w-4 h-4" /> : <span className="w-4" />}
     </button>
   )
 }

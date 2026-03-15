@@ -7,8 +7,8 @@ import { CustomDropdown } from "./shared/CustomDropdown"
 import { AmountInput } from "./shared/AmountInput"
 import { DropdownOption } from "./shared/DropdownOption"
 import { PeriodDropdown } from "./shared/PeriodDropdown"
-import { getCurrentEventLabel } from "../utils/formatters"
-import { PERIOD_OPTIONS } from "../types"
+import { getCurrentEventLabel } from "./utils/formatters"
+import { PERIOD_OPTIONS } from "../../lib/types"
 import { useAppDispatch, useAppSelector, type RootState } from "@/store"
 import {
   setRewardEventType,
@@ -93,7 +93,7 @@ export const RewardEventDropdown = () => {
           </span>
         }
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <DropdownOption
             label="Cross $X in sales"
             isSelected={rewardEvent.type === "cross_sales"}

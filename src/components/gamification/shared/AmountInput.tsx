@@ -14,8 +14,7 @@ interface AmountInputProps {
 export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
   ({ value, onChange, placeholder = "e.g. 100", autoFocus = false, className = "", onKeyDown }, ref) => {
     return (
-      <div className={`px-3 py-2 flex items-center gap-2 ${className}`}>
-        <span className="text-secondary">$</span>
+      <div className={`flex items-center gap-2 relative ${className}`}>
         <Input
           ref={ref}
           type="text"
@@ -23,9 +22,12 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          className="flex-1"
+          className="flex-1 pl-7 "
           autoFocus={autoFocus}
-        />
+        >
+
+        </Input>
+        <span className="text-secondary absolute left-4 top-1/2 -translate-y-1/2">$</span>
       </div>
     )
   }

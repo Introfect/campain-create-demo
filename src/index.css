@@ -43,6 +43,7 @@
     --text: #303030;
     --text-muted: #B5B5B5;
     --border-secondary: #E3E3E3;
+    --primary-light: #FFF5FF;
 }
 
 .dark {
@@ -123,6 +124,7 @@
     --color-text-muted: var(--text-muted);
     --color-border-secondary: var(--border-secondary);
     --color-text: var(--text);
+    --color-primary-light: var(--primary-light);
 }
 
 @layer base {

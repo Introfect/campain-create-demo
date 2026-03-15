@@ -1,7 +1,8 @@
-import { ChevronDown } from "lucide-react"
+import { Check, ChevronDown } from "lucide-react"
 import { useRef, useEffect } from "react"
-import type { PeriodType } from "../../types"
-import { PERIOD_OPTIONS } from "../../types"
+import type { PeriodType } from "@/lib/types"
+import { PERIOD_OPTIONS } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 interface PeriodDropdownProps {
   isOpen: boolean
@@ -32,9 +33,8 @@ export const PeriodDropdown = ({ isOpen, onToggle, value, onChange, focusedIndex
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full h-8 px-2.5 py-1 text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-sm ${
-          isOpen ? "border-primary ring-2 ring-primary/20" : "border-input"
-        }`}
+        className={`w-full py-[9px] px-2.5  text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-sm ${isOpen ? " border-2 border-primary" : "border-border-secondary"
+          }`}
       >
         <span className={value ? "text-secondary" : "text-muted-foreground"}>
           {value ? PERIOD_OPTIONS.find((o) => o.value === value)?.label : "Select duration"}
@@ -43,7 +43,7 @@ export const PeriodDropdown = ({ isOpen, onToggle, value, onChange, focusedIndex
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-input rounded-lg shadow-lg z-60 py-1">
+        <div className="absolute top-full p-1 left-0 right-0 mt-1 bg-white border border-input rounded-lg shadow-lg z-60 py-1">
           {PERIOD_OPTIONS.map((option, index) => (
             <button
               key={option.value}
@@ -52,11 +52,11 @@ export const PeriodDropdown = ({ isOpen, onToggle, value, onChange, focusedIndex
                 onChange(option.value as PeriodType)
                 onToggle()
               }}
-              className={`w-full px-2.5 py-1.5 text-left text-sm hover:bg-muted transition-colors ${
-                index === focusedIndex ? "bg-muted" : ""
-              } ${value === option.value ? "text-primary font-medium" : "text-secondary"}`}
+              className={`w-full px-2.5 py-1.5  flex items-center rounded-md justify-between text-left text-sm hover:bg-muted transition-colors ${index === focusedIndex ? "bg-muted" : ""
+                } ${value === option.value ? "text-primary bg-primary-light" : "text-secondary"}`}
             >
               {option.label}
+              {value === option.value ? <Check className={cn("w-4 h-4", value === option.value ? "text-primary bg-primary-light" : "text-secondary")} /> : <span className="w-4" />}
             </button>
           ))}
         </div>

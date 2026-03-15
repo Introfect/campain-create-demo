@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RewardEventType, PeriodType, RewardType, ModalView, SavedEvent, SavedReward } from '@/components/gamification/types'
+import type { RewardEventType, PeriodType, RewardType, ModalView, SavedEvent, SavedReward } from '@/lib/types'
 
 interface GamificationState {
   // Dialog state

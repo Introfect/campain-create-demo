@@ -1,5 +1,5 @@
-import HeroCards from "@/components/gamification/components/HeroCards"
-import { RewardSystemDialog } from "@/components/gamification/components/RewardSystemDialog"
+import HeroCards from "@/components/gamification/HeroCards"
+import { RewardSystemDialog } from "@/components/gamification/RewardSystemDialog"
 import { gamificationCards } from "@/constants/common"
 
 

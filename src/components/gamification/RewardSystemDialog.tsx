@@ -20,7 +20,7 @@ export const RewardSystemDialog = () => {
                     </Button>
                 </div>
             </DialogTrigger>
-            <DialogContent className="p-6 gap-4">
+            <DialogContent className="border-none p-6 gap-4 sm:max-w-[400px]">
                 <RewardDialogHeader modalView={modalView} />
                 {modalView === "main" && <MainRewardView />}
                 {modalView === "tier_selection" && <TierSelectionView />}

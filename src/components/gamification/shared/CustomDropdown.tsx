@@ -46,14 +46,14 @@ export const CustomDropdown = ({
       <button
         type="button"
         onClick={onToggle}
-        className={cn("w-full text-base leading-[140%] h-10 px-3 py-2 text-left bg-white border border-secondary rounded-lg flex items-center justify-between transition-colors", isOpen ? "border-primary border-2" : "border-border-secondary", triggerClassName)}
+        className={cn("w-full text-base leading-[140%] px-3 py-[9px] text-left bg-white border border-secondary rounded-lg flex items-center justify-between transition-colors", isOpen ? "border-primary border-2" : "border-border-secondary", triggerClassName)}
       >
         {trigger}
         <ChevronDown className={cn("w-4 h-4 transition-transform", isOpen ? "rotate-180" : "")} />
       </button>
 
       {isOpen && (
-        <div className={cn("absolute top-full left-0 right-0 mt-1 bg-white border border-input rounded-lg shadow-lg z-50 py-2", className)}>
+        <div className={cn("absolute top-full left-0 right-0 bg-white border border-border-secondary rounded-lg shadow-lg z-50 p-1", className)}>
           {children}
         </div>
       )}

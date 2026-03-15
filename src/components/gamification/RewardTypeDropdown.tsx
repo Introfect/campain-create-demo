@@ -5,7 +5,7 @@ import { Check } from "lucide-react"
 import { CustomDropdown } from "./shared/CustomDropdown"
 import { AmountInput } from "./shared/AmountInput"
 import { DropdownOption } from "./shared/DropdownOption"
-import { getCurrentRewardLabel } from "../utils/formatters"
+import { getCurrentRewardLabel } from "./utils/formatters"
 import { useAppDispatch, useAppSelector, type RootState } from "@/store"
 import {
   setRewardTypeType,
@@ -72,7 +72,7 @@ export const RewardTypeDropdown = () => {
           </span>
         }
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <DropdownOption
             label="Flat $X bonus"
             isSelected={rewardType.type === "flat_bonus"}
@@ -93,16 +93,16 @@ export const RewardTypeDropdown = () => {
             type="button"
             onClick={() => !isUpgradeTierDisabled && dispatch(setRewardTypeType("upgrade_tier"))}
             disabled={isUpgradeTierDisabled}
-            className={`px-3 py-2 text-left hover:bg-muted flex items-center gap-2 w-full transition-colors ${rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
-              } ${rewardType.type === "upgrade_tier" ? "text-primary" : "text-secondary"
+            className={`px-3 py-2 text-left hover:bg-muted rounded-lg flex items-center justify-between gap-2 w-full transition-colors ${rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
+              } ${rewardType.type === "upgrade_tier" ? "text-primary bg-primary-light" : "text-secondary"
               } ${isUpgradeTierDisabled ? "opacity-50 cursor-not-allowed hover:bg-transparent" : ""}`}
           >
+            <span>Upgrade Commission Tier</span>
             {rewardType.type === "upgrade_tier" ? (
               <Check className="w-4 h-4" />
             ) : (
               <span className="w-4" />
             )}
-            <span>Upgrade Commission Tier</span>
           </button>
         </div>
       </CustomDropdown>

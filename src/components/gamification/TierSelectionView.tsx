@@ -1,7 +1,7 @@
 import { useHotkeys } from "react-hotkeys-hook"
 import { Button } from "@/components/ui/button"
 import { CustomDropdown } from "./shared/CustomDropdown"
-import { TIER_OPTIONS } from "../types"
+import { TIER_OPTIONS } from "../../lib/types"
 import { useAppDispatch, useAppSelector, type RootState } from "@/store"
 import {
   setSelectedTierName,
@@ -44,9 +44,8 @@ export const TierSelectionView = () => {
                 key={option.value}
                 type="button"
                 onClick={() => dispatch(setSelectedTierName(option.label))}
-                className={`w-full px-3 py-2 text-left hover:bg-muted transition-colors ${
-                  index === tierSelection.focusedIndex ? "bg-muted" : ""
-                } ${tierSelection.selectedTierName === option.label ? "text-primary font-medium" : "text-secondary"}`}
+                className={`w-full px-3 py-2 text-left hover:bg-muted rounded-lg transition-colors ${index === tierSelection.focusedIndex ? "bg-muted" : ""
+                  } ${tierSelection.selectedTierName === option.label ? "text-primary bg-primary-light" : "text-secondary"}`}
               >
                 {option.label}
               </button>
