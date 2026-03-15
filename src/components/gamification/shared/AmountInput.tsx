@@ -23,17 +23,27 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
     },
     ref,
   ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
+      // Allow empty string, numbers, and single decimal point
+      if (newValue === "" || /^\d*\.?\d*$/.test(newValue)) {
+        onChange(newValue);
+      }
+    };
+
     return (
-      <div className={`flex items-center gap-2 relative ${className}`}>
+      <div className={`flex items-center  gap-2 relative ${className}`}>
         <Input
           ref={ref}
           type="text"
+          inputMode="decimal"
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={handleChange}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
           className="flex-1 pl-7 "
           autoFocus={autoFocus}
+          maxLength={15}
         ></Input>
         <span className="text-secondary absolute left-4 top-1/2 -translate-y-1/2">
           $
