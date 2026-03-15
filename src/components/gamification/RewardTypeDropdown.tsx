@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import type React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { CustomDropdown } from "./shared/CustomDropdown";
 import { AmountInput } from "./shared/AmountInput";
 import { DropdownOption } from "./shared/DropdownOption";
@@ -12,7 +13,10 @@ import {
   setRewardTypeAmount,
   setRewardTypeOpen,
   setFocusedRewardOptionIndex,
+  saveRewardType,
+  cancelRewardType,
 } from "@/store/slices/gamificationSlice";
+import { selectIsRewardSaveEnabled } from "@/store/selectors/gamificationSelectors";
 
 export const RewardTypeDropdown = () => {
   const dispatch = useAppDispatch();
@@ -22,6 +26,7 @@ export const RewardTypeDropdown = () => {
   const savedEventType = useAppSelector(
     (state: RootState) => state.gamification.rewardEvent.savedEvent?.type,
   );
+  const isRewardSaveEnabled = useAppSelector(selectIsRewardSaveEnabled);
 
   const rewardAmountInputRef = useRef<HTMLInputElement>(null);
 
@@ -86,7 +91,7 @@ export const RewardTypeDropdown = () => {
   ) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      dispatch(setRewardTypeOpen(false));
+      dispatch(saveRewardType());
     }
   };
 
@@ -96,6 +101,9 @@ export const RewardTypeDropdown = () => {
     rewardType.savedReward?.tierName || "",
     rewardType.savedReward,
   );
+
+  const rewardInputOptions =
+    rewardType.type === "flat_bonus" && rewardType.isInputExpanded;
 
   return (
     <div className="flex flex-col gap-2">
@@ -122,13 +130,15 @@ export const RewardTypeDropdown = () => {
             onClick={() => dispatch(setRewardTypeType("flat_bonus"))}
           />
 
-          {rewardType.type === "flat_bonus" && rewardType.isInputExpanded && (
-            <AmountInput
-              ref={rewardAmountInputRef}
-              value={rewardType.amount}
-              onChange={(value) => dispatch(setRewardTypeAmount(value))}
-              onKeyDown={handleRewardAmountKeyDown}
-            />
+          {rewardInputOptions && (
+            <>
+              <AmountInput
+                ref={rewardAmountInputRef}
+                value={rewardType.amount}
+                onChange={(value) => dispatch(setRewardTypeAmount(value))}
+                onKeyDown={handleRewardAmountKeyDown}
+              />
+            </>
           )}
 
           <button
@@ -153,6 +163,27 @@ export const RewardTypeDropdown = () => {
               <span className="w-4" />
             )}
           </button>
+          {rewardInputOptions && (
+            <div className="flex w-full mt-1 items-center justify-between gap-1">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-[49%]"
+                onClick={() => dispatch(cancelRewardType())}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="default"
+                className="w-[49%]"
+                disabled={!isRewardSaveEnabled}
+                onClick={() => dispatch(saveRewardType())}
+              >
+                Save
+              </Button>
+            </div>
+          )}
         </div>
       </CustomDropdown>
     </div>

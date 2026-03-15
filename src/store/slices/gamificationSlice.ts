@@ -206,7 +206,7 @@ export const gamificationSlice = createSlice({
 
       if (action.payload === 'flat_bonus') {
         // Keep dropdown open so the amount input field is visible and focused
-        state.rewardType.savedReward = { type: action.payload, amount: state.rewardType.amount }
+        // Don't auto-save - user must click Save button
       } else if (action.payload === 'upgrade_tier') {
         state.rewardType.isOpen = false
         state.rewardType.isInputExpanded = false
@@ -223,7 +223,7 @@ export const gamificationSlice = createSlice({
 
     setRewardTypeAmount: (state: GamificationState, action: PayloadAction<string>) => {
       state.rewardType.amount = action.payload
-      state.rewardType.savedReward = { type: 'flat_bonus', amount: action.payload }
+      // Don't auto-save - user must click Save button
     },
 
     setRewardTypeOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
@@ -236,6 +236,23 @@ export const gamificationSlice = createSlice({
 
     setFocusedRewardOptionIndex: (state: GamificationState, action: PayloadAction<number>) => {
       state.rewardType.focusedOptionIndex = action.payload
+    },
+
+    saveRewardType: (state: GamificationState) => {
+      state.rewardType.savedReward = {
+        type: state.rewardType.type,
+        amount: state.rewardType.amount,
+      }
+      state.rewardType.isOpen = false
+      state.rewardType.isInputExpanded = false
+    },
+
+    cancelRewardType: (state: GamificationState) => {
+      const saved = state.rewardType.savedReward
+      state.rewardType.type = saved?.type || null
+      state.rewardType.amount = saved?.amount || ''
+      state.rewardType.isOpen = false
+      state.rewardType.isInputExpanded = false
     },
 
     // Tier Selection actions
@@ -299,6 +316,8 @@ export const {
   setRewardTypeAmount,
   setRewardTypeOpen,
   setFocusedRewardOptionIndex,
+  saveRewardType,
+  cancelRewardType,
   setSelectedTierName,
   setTierDropdownOpen,
   setFocusedTierIndex,

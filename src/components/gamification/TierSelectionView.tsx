@@ -10,12 +10,14 @@ import {
   saveTierSelection,
   goBackFromTier,
 } from "@/store/slices/gamificationSlice";
+import { selectIsTierSaveEnabled } from "@/store/selectors/gamificationSelectors";
 
 export const TierSelectionView = () => {
   const dispatch = useAppDispatch();
   const tierSelection = useAppSelector(
     (state: RootState) => state.gamification.tierSelection,
   );
+  const isTierSaveEnabled = useAppSelector(selectIsTierSaveEnabled);
 
   // Keyboard navigation for tier dropdown
   useHotkeys(
@@ -107,10 +109,11 @@ export const TierSelectionView = () => {
         </CustomDropdown>
       </div>
 
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex w-full items-center mt-1 justify-between gap-1">
         <Button
           type="button"
-          variant="ghost"
+          variant="outline"
+          className="w-[49%]"
           onClick={() => dispatch(goBackFromTier())}
         >
           Go Back
@@ -118,6 +121,8 @@ export const TierSelectionView = () => {
         <Button
           type="button"
           variant="default"
+          className="w-[49%]"
+          disabled={!isTierSaveEnabled}
           onClick={() => dispatch(saveTierSelection())}
         >
           Save

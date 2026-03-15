@@ -22,6 +22,7 @@ import {
   saveRewardEvent,
   cancelRewardEvent,
 } from "@/store/slices/gamificationSlice";
+import { selectIsEventSaveEnabled } from "@/store/selectors/gamificationSelectors";
 import { cn } from "@/lib/utils";
 
 export const RewardEventDropdown = () => {
@@ -29,6 +30,7 @@ export const RewardEventDropdown = () => {
   const rewardEvent = useAppSelector(
     (state: RootState) => state.gamification.rewardEvent,
   );
+  const isEventSaveEnabled = useAppSelector(selectIsEventSaveEnabled);
 
   const amountInputRef = useRef<HTMLInputElement>(null);
   const postTimesInputRef = useRef<HTMLInputElement>(null);
@@ -238,15 +240,14 @@ export const RewardEventDropdown = () => {
             onClick={() => dispatch(setRewardEventType("is_onboarded"))}
           />
 
-          {/* Only show Save/Cancel buttons when an option with input fields is selected and expanded */}
           {(rewardEvent.type === "cross_sales" ||
             rewardEvent.type === "post_times") &&
             rewardEvent.isInputExpanded && (
-              <div className="flex items-center justify-end gap-2 px-3 pt-2 mt-2 border-t border-input">
+              <div className="flex w-full items-center justify-between gap-1">
                 <Button
                   type="button"
-                  variant="ghost"
-                  size="sm"
+                  variant="outline"
+                  className="w-[49%]"
                   onClick={() => dispatch(cancelRewardEvent())}
                 >
                   Cancel
@@ -254,7 +255,8 @@ export const RewardEventDropdown = () => {
                 <Button
                   type="button"
                   variant="default"
-                  size="sm"
+                  className="w-[49%]"
+                  disabled={!isEventSaveEnabled}
                   onClick={() => dispatch(saveRewardEvent())}
                 >
                   Save

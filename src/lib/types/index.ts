@@ -32,3 +32,29 @@ export const TIER_OPTIONS = [
   { value: "tier_5", label: "Tier 5" },
   { value: "tier_6", label: "Tier 6" },
 ] as const
+
+export type ValidatedCrossSales = { type: "cross_sales"; amount: string }
+export type ValidatedPostTimes = {
+  type: "post_times"
+  postTimes: string
+  postPeriod: Exclude<PeriodType, null>
+}
+export type ValidatedOnboarded = { type: "is_onboarded" }
+export type ValidatedRewardEvent =
+  | ValidatedCrossSales
+  | ValidatedPostTimes
+  | ValidatedOnboarded
+
+export type ValidatedFlatBonus = { type: "flat_bonus"; amount: string }
+export type ValidatedUpgradeTier = { type: "upgrade_tier"; tierName: string }
+export type ValidatedRewardWith = ValidatedFlatBonus | ValidatedUpgradeTier
+
+export type ValidatedTimeBound =
+  | { enabled: false }
+  | { enabled: true; endDate: Date }
+
+export type ValidatedRewardForm = {
+  event: ValidatedRewardEvent
+  reward: ValidatedRewardWith
+  timeBound: ValidatedTimeBound
+}
