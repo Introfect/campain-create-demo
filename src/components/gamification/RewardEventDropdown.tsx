@@ -24,13 +24,17 @@ import {
 } from "@/store/slices/gamificationSlice";
 import { selectIsEventSaveEnabled } from "@/store/selectors/gamificationSelectors";
 import { cn } from "@/lib/utils";
+import { TooltipButton } from "./shared/TooltipButton";
+import { getValidationMessage } from "./utils/validationMessages";
 
 export const RewardEventDropdown = () => {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state: RootState) => state);
   const rewardEvent = useAppSelector(
     (state: RootState) => state.gamification.rewardEvent,
   );
   const isEventSaveEnabled = useAppSelector(selectIsEventSaveEnabled);
+  const validationMessage = getValidationMessage(state, "event");
 
   const amountInputRef = useRef<HTMLInputElement>(null);
   const postTimesInputRef = useRef<HTMLInputElement>(null);
@@ -162,7 +166,7 @@ export const RewardEventDropdown = () => {
   return (
     <div className="flex flex-col gap-2">
       <label className="text-sm text-secondary-foreground">
-        Reward event *
+        Reward event <sup className="text-[#E51C00] text-xs">*</sup>
       </label>
 
       <CustomDropdown
@@ -205,7 +209,7 @@ export const RewardEventDropdown = () => {
           />
 
           {rewardEvent.type === "post_times" && rewardEvent.isInputExpanded && (
-            <div className="px-3 py-2 flex items-center gap-2">
+            <div className="py-2 flex items-center gap-2">
               <Input
                 ref={postTimesInputRef}
                 type="number"
@@ -215,7 +219,7 @@ export const RewardEventDropdown = () => {
                 }
                 onKeyDown={handlePostTimesKeyDown}
                 placeholder="e.g. 4"
-                className="flex-1"
+                className="w-[48%]"
                 min="1"
               />
 
@@ -252,15 +256,16 @@ export const RewardEventDropdown = () => {
                 >
                   Cancel
                 </Button>
-                <Button
+                <TooltipButton
                   type="button"
                   variant="default"
                   className="w-[49%]"
                   disabled={!isEventSaveEnabled}
+                  tooltipMessage={validationMessage}
                   onClick={() => dispatch(saveRewardEvent())}
                 >
                   Save
-                </Button>
+                </TooltipButton>
               </div>
             )}
         </div>

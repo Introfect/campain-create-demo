@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ChevDownIcon from "@/components/svg/ChevDoen";
 
 interface CustomDropdownProps {
   isOpen: boolean;
@@ -56,13 +57,15 @@ export const CustomDropdown = ({
         type="button"
         onClick={onToggle}
         className={cn(
-          "w-full text-base leading-[140%] px-3 py-[9px] text-left bg-white border border-secondary rounded-lg flex items-center justify-between transition-colors",
-          isOpen ? "border-primary border-2" : "border-border-secondary",
+          "w-full text-base leading-[140%] px-3 py-[9px] text-left bg-white border border-secondary outline outline-white hover:cursor-pointer rounded-lg flex items-center justify-between transition-colors",
+          isOpen
+            ? "border-primary border outline outline-primary"
+            : "border-border-secondary",
           triggerClassName,
         )}
       >
         {trigger}
-        <ChevronDown
+        <ChevDownIcon
           className={cn(
             "w-4 h-4 transition-transform",
             isOpen ? "rotate-180" : "",

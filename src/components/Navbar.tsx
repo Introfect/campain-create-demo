@@ -29,7 +29,18 @@ export function Navbar() {
           {pathName}
         </p>
       </div>
-      <span className="size-9 rounded-full bg-primary"></span>
+      <div className="flex items-center gap-4">
+        <img
+          src="/Notification.svg"
+          alt="user"
+          className="size-8 cursor-pointer"
+        />
+        <img
+          src="/profile.jpg"
+          alt="user"
+          className="size-8 rounded-full cursor-pointer object-cover bg-primary"
+        />
+      </div>
     </header>
   );
 }

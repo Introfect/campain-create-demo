@@ -19,7 +19,7 @@ export const getEventTriggerLabel = (savedEvent: SavedEvent | null): string => {
   if (savedEvent?.type === "is_onboarded") {
     return "Is Onboarded"
   }
-  return "Reward event *"
+  return "Select an event"
 }
 
 export const getCurrentEventLabel = (
@@ -47,7 +47,7 @@ export const getRewardTriggerLabel = (savedReward: SavedReward | null): string =
   if (savedReward?.type === "upgrade_tier") {
     return savedReward.tierName ? `Upgrade to (${savedReward.tierName})` : "Upgrade Commission Tier"
   }
-  return "Reward with *"
+  return "Select a reward"
 }
 
 export const getCurrentRewardLabel = (

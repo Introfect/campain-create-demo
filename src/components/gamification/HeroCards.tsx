@@ -8,7 +8,12 @@ export default function HeroCards({
   icon: string;
 }) {
   return (
-    <div className="border relative bg-white w-full pt-6 pb-5 px-4 flex flex-col items-center justify-center text-center rounded-lg border-border">
+    <div
+      style={{
+        boxShadow: "0px 7px 10px 0px rgba(0, 0, 0, 0.05)",
+      }}
+      className="border relative bg-white w-full pt-6 pb-5 px-4 flex flex-col items-center justify-center text-center rounded-lg border-border"
+    >
       <img
         src="/abstract.png"
         alt="gamification card"
@@ -17,7 +22,7 @@ export default function HeroCards({
       <div className="border-10 static z-20 w-fit p-3 flex flex-col items-center justify-center gap-4 rounded-2xl border-accent-foreground ">
         <img src={icon} alt="gamification card" className="size-[25px]" />
       </div>
-      <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex flex-col mt-4 items-center justify-center gap-2">
         <p className="text-text font-medium text-base leading-[140%]">
           {title}
         </p>

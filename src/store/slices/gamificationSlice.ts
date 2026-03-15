@@ -159,6 +159,25 @@ export const gamificationSlice = createSlice({
     },
 
     setRewardEventOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
+      // When closing dropdown
+      if (!action.payload && state.rewardEvent.isOpen) {
+        // Validate if current selection is complete
+        const isComplete = 
+          (state.rewardEvent.type === 'cross_sales' && state.rewardEvent.amount.trim() !== '') ||
+          (state.rewardEvent.type === 'post_times' && state.rewardEvent.postTimes.trim() !== '' && state.rewardEvent.postPeriod !== null) ||
+          state.rewardEvent.type === 'is_onboarded'
+        
+        // If incomplete, revert to saved state
+        if (!isComplete) {
+          const saved = state.rewardEvent.savedEvent
+          state.rewardEvent.type = saved?.type || null
+          state.rewardEvent.amount = saved?.amount || ''
+          state.rewardEvent.postTimes = saved?.postTimes || ''
+          state.rewardEvent.postPeriod = saved?.postPeriod || null
+        }
+        state.rewardEvent.isInputExpanded = false
+      }
+      
       state.rewardEvent.isOpen = action.payload
       // Collapse input fields when dropdown is opened
       if (action.payload) {
@@ -227,6 +246,21 @@ export const gamificationSlice = createSlice({
     },
 
     setRewardTypeOpen: (state: GamificationState, action: PayloadAction<boolean>) => {
+      // When closing dropdown
+      if (!action.payload && state.rewardType.isOpen) {
+        // Validate if current selection is complete
+        const isComplete = 
+          state.rewardType.type === 'flat_bonus' && state.rewardType.amount.trim() !== ''
+        
+        // If incomplete, revert to saved state (but not for upgrade_tier which has its own flow)
+        if (!isComplete && state.rewardType.type !== 'upgrade_tier') {
+          const saved = state.rewardType.savedReward
+          state.rewardType.type = saved?.type || null
+          state.rewardType.amount = saved?.amount || ''
+        }
+        state.rewardType.isInputExpanded = false
+      }
+      
       state.rewardType.isOpen = action.payload
       // Collapse input fields when dropdown is opened
       if (action.payload) {
@@ -280,6 +314,13 @@ export const gamificationSlice = createSlice({
     },
 
     goBackFromTier: (state: GamificationState) => {
+      // If no tier was saved previously, reset upgrade_tier selection
+      if (!state.rewardType.savedReward?.tierName) {
+        state.rewardType.type = null
+        state.rewardType.savedReward = null
+      }
+      
+      // Restore tier name from saved state
       state.tierSelection.selectedTierName = state.rewardType.savedReward?.tierName || ''
       state.modalView = 'main'
     },

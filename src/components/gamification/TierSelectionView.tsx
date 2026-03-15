@@ -11,13 +11,17 @@ import {
   goBackFromTier,
 } from "@/store/slices/gamificationSlice";
 import { selectIsTierSaveEnabled } from "@/store/selectors/gamificationSelectors";
+import { TooltipButton } from "./shared/TooltipButton";
+import { getValidationMessage } from "./utils/validationMessages";
 
 export const TierSelectionView = () => {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state: RootState) => state);
   const tierSelection = useAppSelector(
     (state: RootState) => state.gamification.tierSelection,
   );
   const isTierSaveEnabled = useAppSelector(selectIsTierSaveEnabled);
+  const validationMessage = getValidationMessage(state, "tier");
 
   // Keyboard navigation for tier dropdown
   useHotkeys(
@@ -98,7 +102,7 @@ export const TierSelectionView = () => {
                 key={option.value}
                 type="button"
                 onClick={() => dispatch(setSelectedTierName(option.label))}
-                className={`w-full px-3 py-2 text-left hover:bg-muted rounded-lg transition-colors ${
+                className={`w-full px-3 py-2 cursor-pointer text-left hover:bg-muted rounded-lg transition-colors ${
                   index === tierSelection.focusedIndex ? "bg-muted" : ""
                 } ${tierSelection.selectedTierName === option.label ? "text-primary bg-primary-light" : "text-secondary"}`}
               >
@@ -118,15 +122,16 @@ export const TierSelectionView = () => {
         >
           Go Back
         </Button>
-        <Button
+        <TooltipButton
           type="button"
           variant="default"
           className="w-[49%]"
           disabled={!isTierSaveEnabled}
+          tooltipMessage={validationMessage}
           onClick={() => dispatch(saveTierSelection())}
         >
           Save
-        </Button>
+        </TooltipButton>
       </div>
     </div>
   );

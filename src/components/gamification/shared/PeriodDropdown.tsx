@@ -3,6 +3,7 @@ import { useRef, useEffect } from "react";
 import type { PeriodType } from "@/lib/types";
 import { PERIOD_OPTIONS } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import ChevDownIcon from "@/components/svg/ChevDoen";
 
 interface PeriodDropdownProps {
   isOpen: boolean;
@@ -39,12 +40,14 @@ export const PeriodDropdown = ({
   }, [isOpen, onToggle]);
 
   return (
-    <div className="relative flex-1" ref={dropdownRef}>
+    <div className="relative w-full flex-1" ref={dropdownRef}>
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full py-[9px] px-2.5 placeholder:text-text-muted text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-sm ${
-          isOpen ? " border-2 border-primary" : "border-border-secondary"
+        className={`w-full flex-1 py-[9px] px-2.5 placeholder:text-text-muted text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-base ${
+          isOpen
+            ? " ring ring-primary border border-primary"
+            : "ring ring-border-secondary outline outline-white"
         }`}
       >
         <span className={value ? "text-secondary" : "text-muted-foreground"}>
@@ -52,7 +55,7 @@ export const PeriodDropdown = ({
             ? PERIOD_OPTIONS.find((o) => o.value === value)?.label
             : "Select duration"}
         </span>
-        <ChevronDown
+        <ChevDownIcon
           className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
         />
       </button>

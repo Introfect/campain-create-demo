@@ -17,9 +17,12 @@ import {
   cancelRewardType,
 } from "@/store/slices/gamificationSlice";
 import { selectIsRewardSaveEnabled } from "@/store/selectors/gamificationSelectors";
+import { TooltipButton } from "./shared/TooltipButton";
+import { getValidationMessage } from "./utils/validationMessages";
 
 export const RewardTypeDropdown = () => {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state: RootState) => state);
   const rewardType = useAppSelector(
     (state: RootState) => state.gamification.rewardType,
   );
@@ -27,6 +30,7 @@ export const RewardTypeDropdown = () => {
     (state: RootState) => state.gamification.rewardEvent.savedEvent?.type,
   );
   const isRewardSaveEnabled = useAppSelector(selectIsRewardSaveEnabled);
+  const validationMessage = getValidationMessage(state, "reward");
 
   const rewardAmountInputRef = useRef<HTMLInputElement>(null);
 
@@ -107,7 +111,9 @@ export const RewardTypeDropdown = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm text-secondary-foreground">Reward with *</label>
+      <label className="text-sm text-secondary-foreground">
+        Reward with <sup className="text-[#E51C00] text-xs">*</sup>
+      </label>
 
       <CustomDropdown
         isOpen={rewardType.isOpen}
@@ -148,7 +154,7 @@ export const RewardTypeDropdown = () => {
               dispatch(setRewardTypeType("upgrade_tier"))
             }
             disabled={isUpgradeTierDisabled}
-            className={`px-3 py-2 text-left hover:bg-muted rounded-lg flex items-center justify-between gap-2 w-full transition-colors ${
+            className={`px-3 py-2 cursor-pointer text-left hover:bg-muted rounded-lg flex items-center justify-between gap-2 w-full transition-colors ${
               rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
             } ${
               rewardType.type === "upgrade_tier"
@@ -173,15 +179,16 @@ export const RewardTypeDropdown = () => {
               >
                 Cancel
               </Button>
-              <Button
+              <TooltipButton
                 type="button"
                 variant="default"
                 className="w-[49%]"
                 disabled={!isRewardSaveEnabled}
+                tooltipMessage={validationMessage}
                 onClick={() => dispatch(saveRewardType())}
               >
                 Save
-              </Button>
+              </TooltipButton>
             </div>
           )}
         </div>

@@ -49,7 +49,7 @@ export const TimeBoundField = () => {
             <Button
               variant="ghost"
               className={cn(
-                "justify-start border border-border-secondary rounded-lg text-base leading-[140%] text-text-muted bg-white h-fit py-[9px] px-3 text-left font-normal",
+                "justify-start border border-border-secondary rounded-lg text-base leading-[140%] text-text-muted hover:bg-white bg-white h-fit py-[9px] px-3 text-left font-normal",
                 isOpen
                   ? "border-primary border-2"
                   : "border-border-secondary border text-base ",

@@ -5,10 +5,15 @@ import { selectIsCreateRewardEnabled } from "@/store/selectors/gamificationSelec
 import { RewardEventDropdown } from "./RewardEventDropdown";
 import { RewardTypeDropdown } from "./RewardTypeDropdown";
 import { TimeBoundField } from "./TimeBoundField";
+import { TooltipButton } from "./shared/TooltipButton";
+import { getValidationMessage } from "./utils/validationMessages";
+import { toast } from "sonner";
 
 export const MainRewardView = () => {
   const dispatch = useAppDispatch();
+  const state = useAppSelector((state) => state);
   const isCreateRewardEnabled = useAppSelector(selectIsCreateRewardEnabled);
+  const validationMessage = getValidationMessage(state, "create");
 
   return (
     <div className="flex flex-col gap-4">
@@ -25,15 +30,19 @@ export const MainRewardView = () => {
         >
           Cancel
         </Button>
-        <Button
+        <TooltipButton
           className="w-1/2"
           type="button"
           variant="default"
           disabled={!isCreateRewardEnabled}
-          onClick={() => dispatch(setDialogOpen(false))}
+          tooltipMessage={validationMessage}
+          onClick={() => {
+            toast.success("Reward created");
+            dispatch(setDialogOpen(false));
+          }}
         >
           Create Reward
-        </Button>
+        </TooltipButton>
       </div>
     </div>
   );
