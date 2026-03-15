@@ -66,7 +66,13 @@ export const TimeBoundField = () => {
               </span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto h-auto p-0" align="start">
+          <PopoverContent
+            className="w-auto h-auto p-0"
+            align="start"
+            sideOffset={8}
+            collisionPadding={16}
+            avoidCollisions={true}
+          >
             <Calendar
               mode="single"
               selected={endDate || undefined}
