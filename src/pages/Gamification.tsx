@@ -1,5 +1,5 @@
 import HeroCards from "@/components/gamification/HeroCards";
-import { RewardSystemDialog } from "@/components/gamification/RewardSystemDialog";
+import { RewardSystemTrigger } from "@/components/gamification/RewardSystemTrigger";
 import { gamificationCards } from "@/constants/common";
 
 const Gamification = () => {
@@ -16,7 +16,7 @@ const Gamification = () => {
             Enable gamification to start crafting your custom reward system.
           </p>
 
-          <RewardSystemDialog />
+          <RewardSystemTrigger />
         </div>
         <div className="w-full px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 absolute top-65 left-0 right-0">
           {gamificationCards.map((card) => (

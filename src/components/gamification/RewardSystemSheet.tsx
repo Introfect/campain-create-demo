@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useAppDispatch, useAppSelector, type RootState } from "@/store";
 import { setDialogOpen } from "@/store/slices/gamificationSlice";
 import { RewardSystemContent } from "./RewardSystemContent";
 
-export const RewardSystemDialog = () => {
+export const RewardSystemSheet = () => {
   const dispatch = useAppDispatch();
   const dialogOpen = useAppSelector(
     (state: RootState) => state.gamification.dialogOpen,
@@ -14,20 +14,23 @@ export const RewardSystemDialog = () => {
   );
 
   return (
-    <Dialog
+    <Sheet
       open={dialogOpen}
       onOpenChange={(open) => dispatch(setDialogOpen(open))}
     >
-      <DialogTrigger asChild>
+      <SheetTrigger asChild>
         <div className="w-full px-5.5">
           <Button variant="default" className="w-full mx-auto">
             Enable Gamification
           </Button>
         </div>
-      </DialogTrigger>
-      <DialogContent className="border-none p-6 gap-4 sm:max-w-[400px]">
+      </SheetTrigger>
+      <SheetContent
+        side="bottom"
+        className="rounded-t-2xl p-6 max-h-[90vh] overflow-y-auto"
+      >
         <RewardSystemContent modalView={modalView} />
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 };

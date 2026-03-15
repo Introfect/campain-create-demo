@@ -43,7 +43,7 @@ export const PeriodDropdown = ({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-full py-[9px] px-2.5  text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-sm ${
+        className={`w-full py-[9px] px-2.5 placeholder:text-text-muted text-left bg-white border rounded-lg flex items-center justify-between transition-colors text-sm ${
           isOpen ? " border-2 border-primary" : "border-border-secondary"
         }`}
       >
