@@ -89,7 +89,7 @@ function Calendar({
             : "flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground",
           defaultClassNames.caption_label,
         ),
-        table: "w-full border-collapse",
+        table: "w-full",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
           "flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal text-muted-foreground select-none",
@@ -166,18 +166,31 @@ function Calendar({
             <ChevronDownIcon className={cn("size-4", className)} {...props} />
           );
         },
+        MonthGrid: ({ className, ...props }) => (
+          <div role="grid" className={className} {...props} />
+        ),
+        Weekdays: ({ className, ...props }) => (
+          <div role="row" aria-hidden className={className} {...props} />
+        ),
+        Weeks: ({ className, ...props }) => (
+          <div role="rowgroup" className={className} {...props} />
+        ),
+        Week: ({ className, week, ...props }) => (
+          <div role="row" className={className} {...props} />
+        ),
+        Day: ({ className, day, modifiers, ...props }) => (
+          <div role="gridcell" className={className} {...props} />
+        ),
         DayButton: ({ ...props }) => (
           <CalendarDayButton locale={locale} {...props} />
         ),
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">
-                {children}
-              </div>
-            </td>
-          );
-        },
+        WeekNumber: ({ children, ...props }) => (
+          <div {...props}>
+            <div className="flex size-(--cell-size) items-center justify-center text-center">
+              {children}
+            </div>
+          </div>
+        ),
         ...components,
       }}
       {...props}
