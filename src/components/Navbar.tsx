@@ -21,7 +21,11 @@ export function Navbar() {
               <span className="sr-only">Toggle sidebar</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-1/2 ">
+          <SheetContent
+            side="left"
+            className="p-0 w-1/2 "
+            bottomClassName="hidden"
+          >
             <AppSidebar />
           </SheetContent>
         </Sheet>

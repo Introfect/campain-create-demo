@@ -13,20 +13,20 @@ export default function CrossIcon({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <g clip-path="url(#clip0_1_21928)">
+      <g clipPath="url(#clip0_1_21928)">
         <path
           d="M18 6L6 18"
           stroke="#4A4A4A"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M6 6L18 18"
           stroke="#4A4A4A"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

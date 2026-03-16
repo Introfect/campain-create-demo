@@ -11,9 +11,9 @@ export default function ChevDownIcon({ className }: { className?: string }) {
       <path
         d="M0.75 0.75L6.75 6.75L12.75 0.75"
         stroke="#4A4A4A"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

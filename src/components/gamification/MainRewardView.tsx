@@ -16,13 +16,14 @@ export const MainRewardView = () => {
   const validationMessage = getValidationMessage(state, "create");
 
   return (
-    <div className="flex flex-col gap-4">
-      <RewardEventDropdown />
-      <RewardTypeDropdown />
-      <TimeBoundField />
+    <div className="flex flex-col gap-4 md:gap-0 justify-between h-full md:h-auto ">
+      <div className="flex flex-col gap-4">
+        <RewardEventDropdown />
+        <RewardTypeDropdown />
+        <TimeBoundField />
+      </div>
 
-      {/* Desktop buttons */}
-      <div className="hidden md:flex items-center justify-end gap-2 pt-4">
+      <div className="flex  items-center justify-end gap-2 pt-4">
         <Button
           className="w-1/2"
           type="button"
