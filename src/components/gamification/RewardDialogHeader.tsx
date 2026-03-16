@@ -13,7 +13,7 @@ interface RewardDialogHeaderProps {
 
 export const RewardDialogHeader = ({ modalView }: RewardDialogHeaderProps) => (
   <DialogHeader>
-    <DialogTitle className="text-xl font-medium leading-[140%] text-secondary">
+    <DialogTitle className="text-xl  font-medium leading-[140%] text-secondary">
       {TITLE_MAP[modalView]}
     </DialogTitle>
   </DialogHeader>

@@ -1,6 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ChevDownIcon from "@/components/svg/ChevDoen";
 

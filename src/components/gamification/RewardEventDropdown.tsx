@@ -209,7 +209,7 @@ export const RewardEventDropdown = () => {
           />
 
           {rewardEvent.type === "post_times" && rewardEvent.isInputExpanded && (
-            <div className="py-2 flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Input
                 ref={postTimesInputRef}
                 type="number"

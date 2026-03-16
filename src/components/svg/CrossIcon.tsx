@@ -1,6 +1,5 @@
 export default function CrossIcon({
   className,
-  isActive,
 }: {
   className?: string;
   isActive: boolean;

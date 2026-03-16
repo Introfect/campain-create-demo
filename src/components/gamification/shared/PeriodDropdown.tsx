@@ -1,4 +1,4 @@
-import { Check, ChevronDown } from "lucide-react";
+import { Check } from "lucide-react";
 import { useRef, useEffect } from "react";
 import type { PeriodType } from "@/lib/types";
 import { PERIOD_OPTIONS } from "@/lib/types";

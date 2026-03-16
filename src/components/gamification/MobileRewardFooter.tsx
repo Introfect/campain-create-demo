@@ -2,27 +2,19 @@ import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { setDialogOpen } from "@/store/slices/gamificationSlice";
 import { selectIsCreateRewardEnabled } from "@/store/selectors/gamificationSelectors";
-import { RewardEventDropdown } from "./RewardEventDropdown";
-import { RewardTypeDropdown } from "./RewardTypeDropdown";
-import { TimeBoundField } from "./TimeBoundField";
 import { TooltipButton } from "./shared/TooltipButton";
 import { getValidationMessage } from "./utils/validationMessages";
 import { toast } from "sonner";
 
-export const MainRewardView = () => {
+export const MobileRewardFooter = () => {
   const dispatch = useAppDispatch();
   const state = useAppSelector((state) => state);
   const isCreateRewardEnabled = useAppSelector(selectIsCreateRewardEnabled);
   const validationMessage = getValidationMessage(state, "create");
 
   return (
-    <div className="flex flex-col gap-4">
-      <RewardEventDropdown />
-      <RewardTypeDropdown />
-      <TimeBoundField />
-
-      {/* Desktop buttons */}
-      <div className="hidden md:flex items-center justify-end gap-2 pt-4">
+    <div className="sticky bottom-0 bg-background z-10 pt-4 border-t">
+      <div className="flex items-center justify-end gap-2">
         <Button
           className="w-1/2"
           type="button"

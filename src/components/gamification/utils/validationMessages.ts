@@ -1,5 +1,4 @@
 import type { RootState } from "@/store";
-import { PERIOD_OPTIONS } from "@/lib/types";
 
 type ValidationContext = "create" | "event" | "reward" | "tier";
 
@@ -7,7 +6,7 @@ export function getValidationMessage(
   state: RootState,
   context: ValidationContext,
 ): string | null {
-  const { rewardEvent, rewardType, tierSelection, timeBound } =
+  const { rewardEvent, rewardType, tierSelection } =
     state.gamification;
 
   if (context === "create") {
