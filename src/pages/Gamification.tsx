@@ -18,7 +18,7 @@ const Gamification = () => {
 
           <RewardSystemTrigger />
         </div>
-        <div className="w-full px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 absolute top-65 left-0 right-0">
+        <div className="w-full px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 absolute top-63 left-0 right-0">
           {gamificationCards.map((card) => (
             <HeroCards key={card.title} {...card} />
           ))}
