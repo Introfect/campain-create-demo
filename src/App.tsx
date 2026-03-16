@@ -13,6 +13,7 @@ import "./App.css";
 import Payments from "./pages/Payments";
 import Insights from "./pages/Insights";
 import Applications from "./pages/Applications";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/gamification" element={<Gamification />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/payments" element={<Payments />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
