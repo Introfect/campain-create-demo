@@ -57,7 +57,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
 
   // Check saved reward
   if (!savedReward || !savedReward.type) {
-    missingParts.push("a reward type");
+    missingParts.push("a reward");
   } else {
     // Validate saved reward based on type
     if (savedReward.type === "flat_bonus") {
