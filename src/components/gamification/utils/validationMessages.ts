@@ -37,7 +37,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
 
   // Check saved event
   if (!savedEvent || !savedEvent.type) {
-    missingParts.push("a Reward Trigger");
+    missingParts.push("a reward trigger");
   } else {
     // Validate saved event based on type
     if (savedEvent.type === "cross_sales") {
@@ -73,7 +73,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
 
   // Check time-bound
   if (timeBound.enabled && !timeBound.endDate) {
-    missingParts.push("an end date for the time-bound reward");
+    missingParts.push("a reward end date");
   }
 
   if (missingParts.length === 0) {
@@ -84,7 +84,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
   if (missingParts.length > 0) {
     // Single missing part cases
     if (missingParts.length === 1) {
-      if (missingParts[0] === "an end date for the time-bound reward") {
+      if (missingParts[0] === "a reward end date") {
         return "Choose reward end date to continue";
       }
       if (missingParts[0] === "an amount for the sales trigger") {
@@ -99,7 +99,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
     if (
       missingParts.length === 2 &&
       missingParts[0] === "a Reward Trigger" &&
-      missingParts[1] === "a Reward Type"
+      missingParts[1] === "a reward type"
     ) {
       return "Choose a reward trigger and a reward to continue";
     }
