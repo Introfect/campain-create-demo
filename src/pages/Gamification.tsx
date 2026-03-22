@@ -12,7 +12,7 @@ const Gamification = () => {
           <h2 className="text-accent text-balance font-semibold text-[28px] leading-[140%] ">
             Gamify your Campaign
           </h2>
-          <p className="text-secondary-foreground text-base mt-2 mb-6 leading-[140%]">
+          <p className="text-secondary-foreground font-inter text-base mt-2 mb-6 leading-[140%]">
             Enable gamification to start crafting your custom reward system.
           </p>
 

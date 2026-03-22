@@ -26,7 +26,7 @@ export default function HeroCards({
         <p className="text-text font-medium text-base leading-[140%]">
           {title}
         </p>
-        <p className="text-secondary-foreground text-sm leading-[140%]">
+        <p className="text-secondary-foreground font-inter text-sm leading-[140%]">
           {description}
         </p>
       </div>

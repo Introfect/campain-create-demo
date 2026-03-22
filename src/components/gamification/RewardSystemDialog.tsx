@@ -20,7 +20,10 @@ export const RewardSystemDialog = () => {
     >
       <DialogTrigger asChild>
         <div className="w-full">
-          <Button variant="default" className="w-full mx-auto">
+          <Button
+            variant="default"
+            className="w-full font-inter text-base font-normal leading-[140%] mx-auto"
+          >
             Enable Gamification
           </Button>
         </div>
