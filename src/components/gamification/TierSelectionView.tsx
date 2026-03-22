@@ -13,6 +13,8 @@ import {
 import { selectIsTierSaveEnabled } from "@/store/selectors/gamificationSelectors";
 import { TooltipButton } from "./shared/TooltipButton";
 import { getValidationMessage } from "./utils/validationMessages";
+import CheckIcon from "../svg/Check";
+import { DropDownLabels } from "./shared/DropDownLabels";
 
 export const TierSelectionView = () => {
   const dispatch = useAppDispatch();
@@ -75,11 +77,9 @@ export const TierSelectionView = () => {
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-secondary">
-          Upgrade to *
-        </label>
+        <DropDownLabels label="Upgrade to" />
 
         <CustomDropdown
           isOpen={tierSelection.isOpen}
@@ -87,37 +87,38 @@ export const TierSelectionView = () => {
           trigger={
             <span
               className={
-                tierSelection.selectedTierName
-                  ? "text-secondary"
-                  : "text-muted-foreground"
+                tierSelection.selectedTierName ? "text-text" : "text-text-muted"
               }
             >
               {tierSelection.selectedTierName || "Tier Name Here"}
             </span>
           }
         >
-          <div className="py-1">
+          <div className="p-1">
             {TIER_OPTIONS.map((option, index) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => dispatch(setSelectedTierName(option.label))}
-                className={`w-full px-3 py-2 cursor-pointer text-left hover:bg-muted rounded-lg transition-colors ${
-                  index === tierSelection.focusedIndex ? "bg-muted" : ""
-                } ${tierSelection.selectedTierName === option.label ? "text-primary bg-primary-light" : "text-secondary"}`}
+                className={`w-full px-2 py-[9px] font-inter text-base leading-[140%] font-normal cursor-pointer text-left flex items-center justify-between text-text hover:bg-muted rounded-lg transition-colors${tierSelection.selectedTierName === option.label ? "text-primary hover:bg-primary-light bg-primary-light" : "text-secondary"}`}
               >
                 {option.label}
+                {tierSelection.selectedTierName === option.label ? (
+                  <CheckIcon />
+                ) : (
+                  <span />
+                )}
               </button>
             ))}
           </div>
         </CustomDropdown>
       </div>
 
-      <div className="flex w-full items-center mt-1 justify-between gap-1">
+      <div className="flex w-full items-center  justify-between gap-1">
         <Button
           type="button"
           variant="outline"
-          className="w-[49%]"
+          className="w-[49%] -[49%] py-2 text-base leading-[140%] font-inter"
           onClick={() => dispatch(goBackFromTier())}
         >
           Go Back
@@ -125,7 +126,7 @@ export const TierSelectionView = () => {
         <TooltipButton
           type="button"
           variant="default"
-          className="w-[49%]"
+          className="w-[49%] text-base leading-[140%] font-inter"
           disabled={!isTierSaveEnabled}
           tooltipMessage={validationMessage}
           onClick={() => dispatch(saveTierSelection())}

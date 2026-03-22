@@ -57,7 +57,7 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
 
   // Check saved reward
   if (!savedReward || !savedReward.type) {
-    missingParts.push("a Reward Type");
+    missingParts.push("a reward type");
   } else {
     // Validate saved reward based on type
     if (savedReward.type === "flat_bonus") {
@@ -80,7 +80,32 @@ function getCreateRewardValidationMessage(state: RootState): string | null {
     return null;
   }
 
-  // Format the message
+  // Specific message overrides for exact copy
+  if (missingParts.length > 0) {
+    // Single missing part cases
+    if (missingParts.length === 1) {
+      if (missingParts[0] === "an end date for the time-bound reward") {
+        return "Choose reward end date to continue";
+      }
+      if (missingParts[0] === "an amount for the sales trigger") {
+        return "Enter the sales target amount to continue";
+      }
+      if (missingParts[0] === "a bonus amount") {
+        return "Enter the bonus amount to continue";
+      }
+    }
+
+    // Two missing parts: trigger + reward type
+    if (
+      missingParts.length === 2 &&
+      missingParts[0] === "a Reward Trigger" &&
+      missingParts[1] === "a Reward Type"
+    ) {
+      return "Choose a reward trigger and a reward to continue";
+    }
+  }
+
+  // Format the message (fallback for other cases)
   if (missingParts.length === 1) {
     const part = missingParts[0];
     if (part.startsWith("a ") || part.startsWith("an ")) {
@@ -106,7 +131,7 @@ function getEventSaveValidationMessage(
 
   if (type === "cross_sales") {
     if (!amount || amount.trim() === "") {
-      return "Enter an amount for the sales trigger";
+      return "Enter the sales target amount to continue";
     }
   }
 
@@ -125,7 +150,7 @@ function getEventSaveValidationMessage(
       if (missingParts.length === 1) {
         return `Select the ${missingParts[0]}`;
       }
-      return `Select the ${missingParts.join(" and ")}`;
+      return `Select the ${missingParts.join(" and ")} to continue`;
     }
   }
 
@@ -143,7 +168,7 @@ function getRewardSaveValidationMessage(
 
   if (type === "flat_bonus") {
     if (!amount || amount.trim() === "") {
-      return "Enter a bonus amount for the reward";
+      return "Enter a bonus amount to continue";
     }
   }
 

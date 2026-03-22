@@ -26,6 +26,7 @@ import { selectIsEventSaveEnabled } from "@/store/selectors/gamificationSelector
 import { cn } from "@/lib/utils";
 import { TooltipButton } from "./shared/TooltipButton";
 import { getValidationMessage } from "./utils/validationMessages";
+import { DropDownLabels } from "./shared/DropDownLabels";
 
 export const RewardEventDropdown = () => {
   const dispatch = useAppDispatch();
@@ -163,31 +164,39 @@ export const RewardEventDropdown = () => {
     rewardEvent.savedEvent,
   );
 
+  const se = rewardEvent.savedEvent;
+  const pencilHoverCrossSales =
+    se?.type === "cross_sales" && (se.amount?.trim() ?? "") !== "";
+  const pencilHoverPostTimes =
+    se?.type === "post_times" &&
+    (se.postTimes?.trim() ?? "") !== "" &&
+    se.postPeriod != null;
+  const pencilHoverOnboarded = se?.type === "is_onboarded";
+
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm text-secondary-foreground">
-        Reward event <sup className="text-[#E51C00] text-xs">*</sup>
-      </label>
+      <DropDownLabels label="Reward event" />
 
       <CustomDropdown
         isOpen={rewardEvent.isOpen}
         onToggle={() => dispatch(setRewardEventOpen(!rewardEvent.isOpen))}
         trigger={
-          <span
+          <p
             className={cn(
-              "",
+              "font-",
               rewardEvent.savedEvent ? "text-text" : "text-text-muted",
             )}
           >
             {triggerLabel}
-          </span>
+          </p>
         }
       >
-        <div className="flex flex-col gap-1">
+        <div className="flex-col  p-1">
           <DropdownOption
             label="Cross $X in sales"
             isSelected={rewardEvent.type === "cross_sales"}
             isFocused={rewardEvent.focusedOptionIndex === 0}
+            showPencilOnHoverWhenSelected={pencilHoverCrossSales}
             onClick={() => dispatch(setRewardEventType("cross_sales"))}
           />
 
@@ -205,11 +214,12 @@ export const RewardEventDropdown = () => {
             label="Posts X times every Y period"
             isSelected={rewardEvent.type === "post_times"}
             isFocused={rewardEvent.focusedOptionIndex === 1}
+            showPencilOnHoverWhenSelected={pencilHoverPostTimes}
             onClick={() => dispatch(setRewardEventType("post_times"))}
           />
 
           {rewardEvent.type === "post_times" && rewardEvent.isInputExpanded && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center mt-1 gap-2">
               <Input
                 ref={postTimesInputRef}
                 type="number"
@@ -218,8 +228,8 @@ export const RewardEventDropdown = () => {
                   dispatch(setRewardEventPostTimes(e.target.value))
                 }
                 onKeyDown={handlePostTimesKeyDown}
-                placeholder="e.g. 4"
-                className="w-[48%]"
+                placeholder="e.g: 4"
+                className="w-[48%] text-base leading-[140%] rounded-lg font-inter px-2.5 py-[9px]"
                 min="1"
               />
 
@@ -241,17 +251,18 @@ export const RewardEventDropdown = () => {
             label="Is Onboarded"
             isSelected={rewardEvent.type === "is_onboarded"}
             isFocused={rewardEvent.focusedOptionIndex === 2}
+            showPencilOnHoverWhenSelected={pencilHoverOnboarded}
             onClick={() => dispatch(setRewardEventType("is_onboarded"))}
           />
 
           {(rewardEvent.type === "cross_sales" ||
             rewardEvent.type === "post_times") &&
             rewardEvent.isInputExpanded && (
-              <div className="flex w-full items-center justify-between gap-1">
+              <div className="flex w-full mt-2 h-fit items-center justify-between gap-1">
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-[49%]"
+                  className="w-[49%] py-2 text-base leading-[140%] font-inter"
                   onClick={() => dispatch(cancelRewardEvent())}
                 >
                   Cancel
@@ -259,7 +270,7 @@ export const RewardEventDropdown = () => {
                 <TooltipButton
                   type="button"
                   variant="default"
-                  className="w-[49%]"
+                  className="w-[49%] text-base leading-[140%] font-inter"
                   disabled={!isEventSaveEnabled}
                   tooltipMessage={validationMessage}
                   onClick={() => dispatch(saveRewardEvent())}

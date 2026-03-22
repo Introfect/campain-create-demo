@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { Check } from "lucide-react";
+import { CheckIcon, PencilIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CustomDropdown } from "./shared/CustomDropdown";
 import { AmountInput } from "./shared/AmountInput";
@@ -19,6 +19,7 @@ import {
 import { selectIsRewardSaveEnabled } from "@/store/selectors/gamificationSelectors";
 import { TooltipButton } from "./shared/TooltipButton";
 import { getValidationMessage } from "./utils/validationMessages";
+import { DropDownLabels } from "./shared/DropDownLabels";
 
 export const RewardTypeDropdown = () => {
   const dispatch = useAppDispatch();
@@ -109,11 +110,15 @@ export const RewardTypeDropdown = () => {
   const rewardInputOptions =
     rewardType.type === "flat_bonus" && rewardType.isInputExpanded;
 
+  const sr = rewardType.savedReward;
+  const flatPencilOnHover =
+    sr?.type === "flat_bonus" && (sr.amount?.trim() ?? "") !== "";
+  const upgradePencilOnHover =
+    sr?.type === "upgrade_tier" && !!sr.tierName?.trim();
+
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm text-secondary-foreground">
-        Reward with <sup className="text-[#E51C00] text-xs">*</sup>
-      </label>
+      <DropDownLabels label="Reward with" />
 
       <CustomDropdown
         isOpen={rewardType.isOpen}
@@ -128,11 +133,12 @@ export const RewardTypeDropdown = () => {
           </span>
         }
       >
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col p-1">
           <DropdownOption
             label="Flat $X bonus"
             isSelected={rewardType.type === "flat_bonus"}
             isFocused={rewardType.focusedOptionIndex === 0}
+            showPencilOnHoverWhenSelected={flatPencilOnHover}
             onClick={() => dispatch(setRewardTypeType("flat_bonus"))}
           />
 
@@ -154,19 +160,29 @@ export const RewardTypeDropdown = () => {
               dispatch(setRewardTypeType("upgrade_tier"))
             }
             disabled={isUpgradeTierDisabled}
-            className={`px-3 py-2 cursor-pointer text-left hover:bg-muted rounded-lg flex items-center justify-between gap-2 w-full transition-colors ${
-              rewardType.focusedOptionIndex === 1 ? "bg-muted" : ""
-            } ${
+            className={`group p-[9px] text-base leading-[140%] font-inter fornt-normal cursor-pointer text-left hover:bg-muted rounded-lg flex items-center justify-between gap-2 w-full transition-colors ${
               rewardType.type === "upgrade_tier"
-                ? "text-primary bg-primary-light"
+                ? "text-primary hover:bg-primary-light bg-primary-light"
                 : "text-secondary"
-            } ${isUpgradeTierDisabled ? "opacity-50 cursor-not-allowed hover:bg-transparent" : ""}`}
+            } ${isUpgradeTierDisabled ? "text-text-muted cursor-not-allowed hover:bg-transparent" : ""}`}
           >
-            <span>Upgrade Commission Tier</span>
+            <span className="text-base leading-[140%] font-inter font-normal">
+              Upgrade Commission Tier
+            </span>
             {rewardType.type === "upgrade_tier" ? (
-              <Check className="w-4 h-4" />
+              upgradePencilOnHover ? (
+                <span className="relative shrink-0">
+                  <CheckIcon className="transition-opacity group-hover:opacity-0" />
+                  <img
+                    src="/Edit.svg"
+                    className="size-6 absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+                  />
+                </span>
+              ) : (
+                <CheckIcon className=" shrink-0" />
+              )
             ) : (
-              <span className="w-4" />
+              <span className="w-6 shrink-0" />
             )}
           </button>
           {rewardInputOptions && (
@@ -174,7 +190,7 @@ export const RewardTypeDropdown = () => {
               <Button
                 type="button"
                 variant="outline"
-                className="w-[49%]"
+                className="w-[49%] -[49%] py-2 text-base leading-[140%] font-inter"
                 onClick={() => dispatch(cancelRewardType())}
               >
                 Cancel
@@ -182,7 +198,7 @@ export const RewardTypeDropdown = () => {
               <TooltipButton
                 type="button"
                 variant="default"
-                className="w-[49%]"
+                className="w-[49%] text-base leading-[140%] font-inter"
                 disabled={!isRewardSaveEnabled}
                 tooltipMessage={validationMessage}
                 onClick={() => dispatch(saveRewardType())}

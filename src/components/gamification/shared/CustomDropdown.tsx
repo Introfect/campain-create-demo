@@ -56,7 +56,7 @@ export const CustomDropdown = ({
         type="button"
         onClick={onToggle}
         className={cn(
-          "w-full text-base leading-[140%] px-3 py-[9px] text-left bg-white border border-secondary outline outline-white hover:cursor-pointer rounded-lg flex items-center justify-between transition-colors",
+          "w-full text-base leading-[140%] font-inter px-2.5 py-[9px] text-left bg-white border border-secondary outline outline-white hover:cursor-pointer rounded-lg flex items-center justify-between transition-colors",
           isOpen
             ? "border-primary border outline outline-primary"
             : "border-border-secondary",
@@ -65,19 +65,19 @@ export const CustomDropdown = ({
       >
         {trigger}
         <ChevDownIcon
-          className={cn(
-            "w-4 h-4 transition-transform",
-            isOpen ? "rotate-180" : "",
-          )}
+          className={cn(" transition-transform", isOpen ? "rotate-180" : "")}
         />
       </button>
 
       {isOpen && (
         <div
           className={cn(
-            "absolute top-full left-0 right-0 bg-white border border-border-secondary rounded-lg shadow-lg z-50 p-1",
+            "absolute top-[45px] left-0 right-0 bg-white border border-border-secondary rounded-lg  z-50",
             className,
           )}
+          style={{
+            boxShadow: "0px 4px 2px 0px rgba(48, 48, 48, 0.04)",
+          }}
         >
           {children}
         </div>

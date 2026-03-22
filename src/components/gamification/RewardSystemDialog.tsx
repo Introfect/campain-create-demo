@@ -25,7 +25,7 @@ export const RewardSystemDialog = () => {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="border-none max-w-full p-6 gap-4 sm:max-w-[400px]">
+      <DialogContent className="ring-0 rounded-[12px] border-none max-w-full p-6 gap-4 sm:max-w-[400px]">
         <RewardSystemContent modalView={modalView} />
       </DialogContent>
     </Dialog>

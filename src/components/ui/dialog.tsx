@@ -4,6 +4,7 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { XIcon } from "lucide-react";
+import CrossIcon from "../svg/CrossIcon";
 
 function Dialog({
   ...props
@@ -67,14 +68,13 @@ function DialogContent({
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button
-              variant="ghost"
-              className="absolute top-6 right-4"
-              size="icon-sm"
-            >
-              <XIcon className="size-5 text-[#4A4A4A]" />
+            <div className="absolute size-6 top-6.5 right-5 flex items-center justify-center cursor-pointer group">
+              <CrossIcon
+                isActive={false}
+                className=" text-[#4A4A4A] group-hover:text-black transition-colors"
+              />
               <span className="sr-only">Close</span>
-            </Button>
+            </div>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>

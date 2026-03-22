@@ -1,3 +1,4 @@
+import DollarIcon from "@/components/svg/Dollar";
 import { Input } from "@/components/ui/input";
 import type { KeyboardEvent } from "react";
 import { forwardRef } from "react";
@@ -32,7 +33,9 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
     };
 
     return (
-      <div className={`flex items-center  gap-2 relative ${className}`}>
+      <div
+        className={`flex items-center mt-1 font-inter  gap-2 relative ${className}`}
+      >
         <Input
           ref={ref}
           type="text"
@@ -41,13 +44,12 @@ export const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
           onChange={handleChange}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          className="flex-1 pl-7 "
+          className="flex-1 pl-8 pt-[9px] h-auto font-inter text-base leading-[140%]"
           autoFocus={autoFocus}
           maxLength={15}
         ></Input>
-        <span className="text-secondary absolute left-4 top-1/2 -translate-y-1/2">
-          $
-        </span>
+
+        <DollarIcon className="absolute left-4 top-1/2 text-text -translate-y-1/2" />
       </div>
     );
   },

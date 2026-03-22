@@ -33,7 +33,7 @@ export const TooltipButton = React.forwardRef<
   if (!shouldShowTooltip) {
     return (
       <Button
-        className={className}
+        className={cn("w-full", className)}
         ref={ref}
         disabled={disabled}
         {...buttonProps}
@@ -48,11 +48,11 @@ export const TooltipButton = React.forwardRef<
       <Tooltip>
         <TooltipTrigger asChild>
           <span
-            className={cn("inline-flex cursor-not-allowed", className)}
+            className={cn("inline-flex h-fit cursor-not-allowed", className)}
             style={{ pointerEvents: "auto" }}
           >
             <Button
-              className="w-full pointer-events-none"
+              className="w-full text-base leading-[140%] font-inter pointer-events-none"
               ref={ref}
               disabled={disabled}
               {...buttonProps}
@@ -61,7 +61,11 @@ export const TooltipButton = React.forwardRef<
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="max-w-xs">
+        <TooltipContent
+          side="bottom"
+          sideOffset={5}
+          className="max-w-fit bg-text font-inter text-sm leading-[140%] text-white text-nowrap"
+        >
           <p>{tooltipMessage}</p>
         </TooltipContent>
       </Tooltip>

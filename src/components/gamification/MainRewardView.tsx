@@ -23,9 +23,9 @@ export const MainRewardView = () => {
         <TimeBoundField />
       </div>
 
-      <div className="flex  items-center justify-end gap-2 pt-4">
+      <div className="flex  items-center justify-end gap-2 pt-6">
         <Button
-          className="w-1/2"
+          className="w-1/2 py-2 text-base leading-[140%] font-inter"
           type="button"
           variant="outline"
           onClick={() => dispatch(setDialogOpen(false))}
@@ -33,7 +33,7 @@ export const MainRewardView = () => {
           Cancel
         </Button>
         <TooltipButton
-          className="w-1/2"
+          className="w-1/2 text-base leading-[140%] font-inter"
           type="button"
           variant="default"
           disabled={!isCreateRewardEnabled}
