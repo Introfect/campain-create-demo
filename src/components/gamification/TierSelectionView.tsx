@@ -95,7 +95,7 @@ export const TierSelectionView = () => {
           }
         >
           <div className="p-1">
-            {TIER_OPTIONS.map((option, index) => (
+            {TIER_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type="button"

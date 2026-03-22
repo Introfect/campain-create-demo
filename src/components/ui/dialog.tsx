@@ -3,7 +3,6 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { XIcon } from "lucide-react";
 import CrossIcon from "../svg/CrossIcon";
 
 function Dialog({

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type React from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { CheckIcon, PencilIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CustomDropdown } from "./shared/CustomDropdown";
 import { AmountInput } from "./shared/AmountInput";

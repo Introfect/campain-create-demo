@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export const CalendarIcon = ({ className }: { className?: string }) => {
   return (
     <svg
@@ -6,7 +8,7 @@ export const CalendarIcon = ({ className }: { className?: string }) => {
       viewBox="0 0 25 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={"size-6 text-[#4A4A4A]"}
+      className={cn("size-6 text-[#4A4A4A]", className)}
     >
       <g clip-path="url(#clip0_329_2609)">
         <path

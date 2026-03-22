@@ -1,8 +1,6 @@
-import { Check } from "lucide-react";
 import { useRef, useEffect } from "react";
 import type { PeriodType } from "@/lib/types";
 import { PERIOD_OPTIONS } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import ChevDownIcon from "@/components/svg/ChevDoen";
 import CheckIcon from "@/components/svg/Check";
 
@@ -19,7 +17,6 @@ export const PeriodDropdown = ({
   onToggle,
   value,
   onChange,
-  focusedIndex,
 }: PeriodDropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
